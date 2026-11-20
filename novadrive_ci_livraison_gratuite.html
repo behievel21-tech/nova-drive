@@ -1,0 +1,2606 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOVADRIVE CI | Vente & Location de Véhicules en Côte d'Ivoire</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- jsPDF for PDF Receipt Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        gold: {
+                            400: '#E5C158',
+                            500: '#D4AF37',
+                            600: '#B59024',
+                            700: '#8F6F16',
+                        },
+                        obsidian: {
+                            800: '#18181B',
+                            900: '#0F0F12',
+                            950: '#09090B',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar & Luxury Polish */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #09090B; }
+        ::-webkit-scrollbar-thumb { background: #27272A; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+        
+        .glass-nav {
+            background: rgba(9, 9, 11, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #E5C158 0%, #D4AF37 50%, #B59024 100%);
+        }
+        .gold-text-gradient {
+            background: linear-gradient(135deg, #F3D98B 0%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-overlay {
+            background: linear-gradient(to right, rgba(9,9,11,0.94) 0%, rgba(9,9,11,0.75) 55%, rgba(9,9,11,0.35) 100%);
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            70% { transform: scale(1.25); opacity: 0; }
+            100% { transform: scale(1.25); opacity: 0; }
+        }
+        .whatsapp-pulse::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 9999px;
+            background-color: #25D366;
+            z-index: -1;
+            animation: pulse-ring 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-obsidian-950 text-zinc-100 font-sans antialiased selection:bg-gold-500 selection:text-obsidian-950">
+
+    <!-- ==================== TOAST NOTIFICATION CONTAINER ==================== -->
+    <div id="toast-container" class="fixed top-20 right-4 z-[100] flex flex-col gap-3 max-w-sm w-full pointer-events-none"></div>
+
+    <!-- ==================== NAVIGATION HEADER ==================== -->
+    <header class="fixed top-0 inset-x-0 z-50 glass-nav border-b border-zinc-800/80 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo & Brand Name -->
+                <a href="#" onclick="switchView('client')" class="flex items-center gap-3 group">
+                    <div class="bg-white px-2.5 py-1.5 rounded-xl shadow-lg shadow-black/40 border border-zinc-700/60 group-hover:scale-105 transition-transform flex items-center justify-center">
+                        <svg viewBox="0 0 260 95" class="h-10 w-auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo NOVADRIVE CI">
+                            <defs>
+                                <linearGradient id="ndBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#041E42"/>
+                                    <stop offset="100%" stop-color="#0A3B7A"/>
+                                </linearGradient>
+                                <linearGradient id="ndRed" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#D91616"/>
+                                    <stop offset="100%" stop-color="#FF2A1A"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- Speedometer Arc -->
+                            <path d="M 142 36 A 48 48 0 0 1 188 12" fill="none" stroke="url(#ndBlue)" stroke-width="8" stroke-dasharray="11 3"/>
+                            <path d="M 191 12 A 48 48 0 0 1 244 42" fill="none" stroke="url(#ndRed)" stroke-width="8" stroke-dasharray="13 3"/>
+                            <!-- Sleek Sports Car Silhouette -->
+                            <path d="M 16 42 C 42 26, 62 28, 76 28 C 94 13, 126 11, 152 24 C 174 28, 192 34, 202 41 L 182 41 C 175 34, 158 33, 148 39 L 82 39 C 72 31, 46 31, 16 42 Z" fill="url(#ndBlue)"/>
+                            <path d="M 84 26 C 98 16, 125 15, 145 25 L 116 27 Z" fill="#FFFFFF" opacity="0.85"/>
+                            <path d="M 164 34 L 188 37 L 176 39 Z" fill="#FFFFFF"/>
+                            <!-- Speedometer Needle -->
+                            <polygon points="204,43 237,16 208,46" fill="url(#ndRed)"/>
+                            <circle cx="206" cy="44" r="6" fill="#041E42" stroke="#FFFFFF" stroke-width="1.5"/>
+                            <!-- Brand Text: NOVA DRIVE CI -->
+                            <text x="12" y="69" font-family="Inter, Arial, sans-serif" font-weight="900" font-style="italic" font-size="26" letter-spacing="-0.5">
+                                <tspan fill="url(#ndBlue)">NOVA</tspan><tspan fill="url(#ndRed)">DRIVE </tspan><tspan fill="url(#ndBlue)">CI</tspan>
+                            </text>
+                            <!-- Red Swoosh Accent -->
+                            <path d="M 65 71 Q 95 57 125 54 Q 98 62 72 72 Z" fill="url(#ndRed)"/>
+                            <!-- Slogan -->
+                            <text x="34" y="83" font-family="Inter, Arial, sans-serif" font-weight="700" font-style="italic" font-size="9.5" fill="#041E42">Votre prochaine voiture, notre priorité.</text>
+                            <!-- Bottom Tricolor Rule -->
+                            <line x1="20" y1="90" x2="106" y2="90" stroke="#041E42" stroke-width="2"/>
+                            <polygon points="110,87 122,87 117,93 105,93" fill="#041E42"/>
+                            <polygon points="125,87 137,87 132,93 120,93" fill="#E11D1D"/>
+                            <polygon points="140,87 152,87 147,93 135,93" fill="#0A3B7A"/>
+                            <line x1="155" y1="90" x2="240" y2="90" stroke="#041E42" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="hidden sm:block">
+                        <span class="font-sans font-extrabold text-lg tracking-tight text-white block leading-none">NOVADRIVE <span class="text-red-500">CI</span></span>
+                        <span class="text-[10px] tracking-wider text-zinc-400 font-medium block mt-1">Votre prochaine voiture, notre priorité.</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                    <a href="#accueil" onclick="switchView('client')" class="text-zinc-300 hover:text-gold-400 transition-colors">Accueil</a>
+                    <a href="#catalogue" onclick="switchView('client'); filterCatalog('all')" class="text-zinc-300 hover:text-gold-400 transition-colors">Catalogue</a>
+                    <a href="#catalogue" onclick="switchView('client'); filterCatalog('vente')" class="text-zinc-300 hover:text-gold-400 transition-colors">Acheter</a>
+                    <a href="#catalogue" onclick="switchView('client'); filterCatalog('location')" class="text-zinc-300 hover:text-gold-400 transition-colors">Louer</a>
+                    <a href="#avantages" onclick="switchView('client')" class="text-zinc-300 hover:text-gold-400 transition-colors">Nos Engagements</a>
+                </nav>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-3">
+                    <button onclick="openTrackOrderModal()" class="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700/80 text-xs font-medium text-zinc-200 transition-all">
+                        <i class="fa-solid fa-receipt text-gold-500"></i>
+                        <span>Suivi / Reçu</span>
+                    </button>
+                    <button id="nav-admin-btn" onclick="handleAdminNavClick()" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-gold-500/40 text-xs font-semibold text-gold-400 transition-all">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span id="nav-admin-label">Espace Admin</span>
+                    </button>
+                    <!-- Mobile Menu Toggle -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-zinc-900 text-zinc-300 hover:text-white">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-obsidian-900 border-b border-zinc-800 px-4 pt-2 pb-5 space-y-2">
+            <a href="#accueil" onclick="switchView('client'); toggleMobileMenu()" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-zinc-200 hover:bg-zinc-800">Accueil</a>
+            <a href="#catalogue" onclick="switchView('client'); filterCatalog('all'); toggleMobileMenu()" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-zinc-200 hover:bg-zinc-800">Tout le Catalogue</a>
+            <a href="#catalogue" onclick="switchView('client'); filterCatalog('vente'); toggleMobileMenu()" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-zinc-200 hover:bg-zinc-800">Voitures à Vendre</a>
+            <a href="#catalogue" onclick="switchView('client'); filterCatalog('location'); toggleMobileMenu()" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-zinc-200 hover:bg-zinc-800">Voitures à Louer</a>
+            <button onclick="openTrackOrderModal(); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-gold-400 hover:bg-zinc-800">
+                <i class="fa-solid fa-receipt mr-2"></i>Suivre ma commande / Reçu PDF
+            </button>
+        </div>
+    </header>
+
+    <!-- ==================== CLIENT VIEW CONTAINER ==================== -->
+    <main id="client-view" class="pt-20">
+        
+        <!-- 1. HERO SECTION -->
+        <section id="accueil" class="relative min-h-[88vh] flex items-center overflow-hidden">
+            <!-- Background High-Res Visual -->
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1920&q=85" 
+                     alt="Véhicules de luxe NOVADRIVE CI" 
+                     class="w-full h-full object-cover object-center scale-105 transition-transform duration-1000"
+                     onerror="this.src='https://placehold.co/1920x1080/09090B/D4AF37?text=NOVADRIVE+CI'">
+                <div class="hero-overlay absolute inset-0"></div>
+            </div>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
+                <div class="max-w-3xl">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs font-semibold tracking-wider uppercase mb-6">
+                        <span class="w-2 h-2 rounded-full bg-gold-500 animate-pulse"></span>
+                        NOVADRIVE CI • Abidjan • Côte d'Ivoire
+                    </div>
+                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4">
+                        Votre prochaine voiture, <br>
+                        <span class="gold-text-gradient">notre priorité.</span>
+                    </h1>
+                    <p class="text-zinc-300 text-base sm:text-lg leading-relaxed mb-8 max-w-2xl">
+                        Bienvenue chez <strong class="text-white">NOVADRIVE CI</strong>. Découvrez notre sélection exclusive de SUV, berlines et citadines certifiées en Côte d'Ivoire. Achat sécurisé avec garantie ou location flexible, payable instantanément via <strong class="text-white">Wave</strong>.
+                    </p>
+
+                    <!-- Two Primary CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 mb-12">
+                        <a href="#catalogue" onclick="filterCatalog('vente')" class="gold-gradient text-obsidian-950 font-bold px-8 py-4 rounded-xl shadow-xl shadow-gold-500/20 hover:brightness-110 transition-all flex items-center justify-center gap-3 text-base">
+                            <i class="fa-solid fa-car"></i>
+                            <span>Acheter une voiture</span>
+                        </a>
+                        <a href="#catalogue" onclick="filterCatalog('location')" class="bg-white/10 hover:bg-white/15 backdrop-blur-md text-white border border-white/25 font-semibold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-3 text-base">
+                            <i class="fa-solid fa-key text-gold-400"></i>
+                            <span>Louer une voiture</span>
+                        </a>
+                    </div>
+
+                    <!-- Quick Trust Metrics -->
+                    <div class="grid grid-cols-3 gap-4 sm:gap-8 pt-6 border-t border-zinc-800/80 max-w-xl">
+                        <div>
+                            <p class="text-2xl sm:text-3xl font-bold text-white">100%</p>
+                            <p class="text-xs text-zinc-400 mt-1">Véhicules contrôlés</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl sm:text-3xl font-bold text-gold-400">Wave</p>
+                            <p class="text-xs text-zinc-400 mt-1">Paiement mobile direct</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl sm:text-3xl font-bold text-white">24h/7j</p>
+                            <p class="text-xs text-zinc-400 mt-1">Assistance WhatsApp</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEARCH BAR SECTION -->
+        <section class="relative z-20 -mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-obsidian-900 border border-zinc-800 rounded-2xl p-5 sm:p-6 shadow-2xl shadow-black/80">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-sm font-semibold uppercase tracking-wider text-gold-400 flex items-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass"></i> Recherche Rapide de Véhicule
+                    </h2>
+                    <button onclick="resetSearchFilters()" class="text-xs text-zinc-400 hover:text-white underline">Réinitialiser</button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <!-- Brand -->
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1.5">Marque</label>
+                        <select id="search-brand" onchange="applyFilters()" class="w-full bg-obsidian-950 border border-zinc-800 rounded-xl px-3.5 py-3 text-sm text-white focus:outline-none focus:border-gold-500">
+                            <option value="">Toutes les marques</option>
+                        </select>
+                    </div>
+                    <!-- Model / Keyword -->
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1.5">Modèle ou mot-clé</label>
+                        <input type="text" id="search-model" oninput="applyFilters()" placeholder="Ex: Prado, GLE, Tucson..." class="w-full bg-obsidian-950 border border-zinc-800 rounded-xl px-3.5 py-3 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-gold-500">
+                    </div>
+                    <!-- Category -->
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1.5">Catégorie</label>
+                        <select id="search-category" onchange="applyFilters()" class="w-full bg-obsidian-950 border border-zinc-800 rounded-xl px-3.5 py-3 text-sm text-white focus:outline-none focus:border-gold-500">
+                            <option value="all">Vente & Location</option>
+                            <option value="vente">A. Voitures à vendre</option>
+                            <option value="location">B. Voitures à louer</option>
+                        </select>
+                    </div>
+                    <!-- Max Price -->
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1.5">Budget Maximum (FCFA)</label>
+                        <select id="search-price" onchange="applyFilters()" class="w-full bg-obsidian-950 border border-zinc-800 rounded-xl px-3.5 py-3 text-sm text-white focus:outline-none focus:border-gold-500">
+                            <option value="">Tous les budgets</option>
+                            <option value="50000">Jusqu'à 50 000 FCFA / jour</option>
+                            <option value="100000">Jusqu'à 100 000 FCFA / jour</option>
+                            <option value="15000000">Jusqu'à 15 000 000 FCFA (Achat)</option>
+                            <option value="30000000">Jusqu'à 30 000 000 FCFA (Achat)</option>
+                            <option value="60000000">Jusqu'à 60 000 000 FCFA (Achat)</option>
+                        </select>
+                    </div>
+                    <!-- Submit Button -->
+                    <div class="flex items-end">
+                        <a href="#catalogue" onclick="applyFilters()" class="w-full gold-gradient text-obsidian-950 font-bold py-3 px-4 rounded-xl text-sm text-center hover:brightness-110 transition-all shadow-lg shadow-gold-500/10">
+                            Rechercher (<span id="search-count-badge">0</span>)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. CATALOGUE DES VOITURES -->
+        <section id="catalogue" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                <div>
+                    <span class="text-gold-400 text-xs font-bold uppercase tracking-widest">Notre Parc Automobile</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-2">Catalogue des Véhicules</h2>
+                    <p class="text-zinc-400 text-sm mt-2">Sélectionnez une catégorie ou consultez la fiche détaillée de chaque véhicule.</p>
+                </div>
+
+                <!-- Category Tabs (A. Voitures à vendre / B. Voitures à louer) -->
+                <div class="inline-flex p-1.5 rounded-xl bg-obsidian-900 border border-zinc-800 self-start">
+                    <button id="tab-all" onclick="filterCatalog('all')" class="px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-gold-500 text-obsidian-950">
+                        Tous les véhicules
+                    </button>
+                    <button id="tab-vente" onclick="filterCatalog('vente')" class="px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-zinc-400 hover:text-white">
+                        A. Voitures à vendre
+                    </button>
+                    <button id="tab-location" onclick="filterCatalog('location')" class="px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-zinc-400 hover:text-white">
+                        B. Voitures à louer
+                    </button>
+                </div>
+            </div>
+
+            <!-- Vehicles Grid -->
+            <div id="vehicles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Populated dynamically via JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="catalog-empty" class="hidden text-center py-16 bg-obsidian-900/50 rounded-2xl border border-zinc-800">
+                <i class="fa-solid fa-car-burst text-4xl text-zinc-600 mb-4"></i>
+                <h3 class="text-lg font-semibold text-white">Aucun véhicule ne correspond à vos critères</h3>
+                <p class="text-sm text-zinc-400 mt-1 mb-6">Essayez de modifier vos filtres de recherche ou réinitialisez la sélection.</p>
+                <button onclick="resetSearchFilters()" class="px-6 py-2.5 rounded-xl bg-gold-500 text-obsidian-950 font-semibold text-sm">Afficher tout le catalogue</button>
+            </div>
+        </section>
+
+        <!-- ADVANTAGES SECTION -->
+        <section id="avantages" class="py-20 bg-obsidian-900 border-y border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-14">
+                    <span class="text-gold-400 text-xs font-bold uppercase tracking-widest">Pourquoi Nous Choisir</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-2">La Référence Automobile en Côte d'Ivoire</h2>
+                    <p class="text-zinc-400 text-sm mt-3">Un accompagnement clé en main, transparent et sécurisé pour tous vos déplacements et acquisitions à Abidjan et à l'intérieur du pays.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-obsidian-950 p-6 rounded-2xl border border-zinc-800 hover:border-gold-500/40 transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-5">
+                            <i class="fa-solid fa-certificate text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Inspection 120 Points</h3>
+                        <p class="text-sm text-zinc-400 leading-relaxed">Chaque véhicule est rigoureusement diagnostiqué par nos ingénieurs mécaniciens avant mise en vente ou location.</p>
+                    </div>
+
+                    <div class="bg-obsidian-950 p-6 rounded-2xl border border-zinc-800 hover:border-gold-500/40 transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 mb-5">
+                            <i class="fa-solid fa-mobile-screen-button text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Paiement Wave Simplifié</h3>
+                        <p class="text-sm text-zinc-400 leading-relaxed">Réglez vos réservations ou acomptes rapidement via Wave au <strong class="text-zinc-200">05 85 87 80 13</strong> avec reçu PDF instantané.</p>
+                    </div>
+
+                    <div class="bg-obsidian-950 p-6 rounded-2xl border border-zinc-800 hover:border-gold-500/40 transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-5">
+                            <i class="fa-solid fa-file-contract text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Documents & Mutation</h3>
+                        <p class="text-sm text-zinc-400 leading-relaxed">Carte grise, visite technique, assurance et formalités administratives garanties à jour en Côte d'Ivoire.</p>
+                    </div>
+
+                    <div class="bg-obsidian-950 p-6 rounded-2xl border border-zinc-800 hover:border-gold-500/40 transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-5">
+                            <i class="fa-solid fa-truck-fast text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Livraison Gratuite</h3>
+                        <p class="text-sm text-zinc-400 leading-relaxed">Livraison <strong class="text-emerald-400">100% gratuite</strong> à l'aéroport Félix Houphouët-Boigny, à Cocody, Plateau, Marcory, à domicile ou en Côte d'Ivoire.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 11. FOOTER -->
+        <footer class="bg-obsidian-950 border-t border-zinc-800 pt-16 pb-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-zinc-800/80">
+                    <!-- Brand -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="bg-white px-2.5 py-1.5 rounded-xl inline-flex items-center justify-center shadow-md">
+                                <svg viewBox="0 0 260 95" class="h-10 w-auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo NOVADRIVE CI">
+                                    <path d="M 142 36 A 48 48 0 0 1 188 12" fill="none" stroke="#041E42" stroke-width="8" stroke-dasharray="11 3"/>
+                                    <path d="M 191 12 A 48 48 0 0 1 244 42" fill="none" stroke="#E11D1D" stroke-width="8" stroke-dasharray="13 3"/>
+                                    <path d="M 16 42 C 42 26, 62 28, 76 28 C 94 13, 126 11, 152 24 C 174 28, 192 34, 202 41 L 182 41 C 175 34, 158 33, 148 39 L 82 39 C 72 31, 46 31, 16 42 Z" fill="#041E42"/>
+                                    <polygon points="204,43 237,16 208,46" fill="#E11D1D"/>
+                                    <circle cx="206" cy="44" r="6" fill="#041E42" stroke="#FFFFFF" stroke-width="1.5"/>
+                                    <text x="12" y="69" font-family="Inter, Arial, sans-serif" font-weight="900" font-style="italic" font-size="26" letter-spacing="-0.5">
+                                        <tspan fill="#041E42">NOVA</tspan><tspan fill="#E11D1D">DRIVE </tspan><tspan fill="#041E42">CI</tspan>
+                                    </text>
+                                    <path d="M 65 71 Q 95 57 125 54 Q 98 62 72 72 Z" fill="#E11D1D"/>
+                                    <text x="34" y="83" font-family="Inter, Arial, sans-serif" font-weight="700" font-style="italic" font-size="9.5" fill="#041E42">Votre prochaine voiture, notre priorité.</text>
+                                    <line x1="20" y1="90" x2="106" y2="90" stroke="#041E42" stroke-width="2"/>
+                                    <polygon points="110,87 122,87 117,93 105,93" fill="#041E42"/>
+                                    <polygon points="125,87 137,87 132,93 120,93" fill="#E11D1D"/>
+                                    <polygon points="140,87 152,87 147,93 135,93" fill="#0A3B7A"/>
+                                    <line x1="155" y1="90" x2="240" y2="90" stroke="#041E42" stroke-width="2"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-sm text-zinc-400 leading-relaxed mb-5">
+                            <strong class="text-white">NOVADRIVE CI</strong> — Votre prochaine voiture, notre priorité. Achat et location de véhicules certifiés en Côte d'Ivoire.
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <a href="https://wa.me/2250585878013" target="_blank" class="w-10 h-10 rounded-xl bg-zinc-900 hover:bg-emerald-600 text-zinc-300 hover:text-white flex items-center justify-center transition-colors" title="WhatsApp">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                            </a>
+                            <a id="footer-facebook-link" href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl bg-zinc-900 hover:bg-[#1877F2] text-zinc-300 hover:text-white flex items-center justify-center transition-colors" title="Page Facebook NOVADRIVE CI">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                            <a href="#accueil" class="w-10 h-10 rounded-xl bg-zinc-900 hover:bg-gold-500 text-zinc-300 hover:text-obsidian-950 flex items-center justify-center transition-colors" title="Instagram">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                            <a href="#accueil" class="w-10 h-10 rounded-xl bg-zinc-900 hover:bg-gold-500 text-zinc-300 hover:text-obsidian-950 flex items-center justify-center transition-colors" title="TikTok">
+                                <i class="fa-brands fa-tiktok"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div>
+                        <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Navigation</h4>
+                        <ul class="space-y-2.5 text-sm text-zinc-400">
+                            <li><a href="#accueil" class="hover:text-gold-400 transition-colors">Accueil</a></li>
+                            <li><a href="#catalogue" onclick="filterCatalog('vente')" class="hover:text-gold-400 transition-colors">Voitures à vendre</a></li>
+                            <li><a href="#catalogue" onclick="filterCatalog('location')" class="hover:text-gold-400 transition-colors">Voitures à louer</a></li>
+                            <li><button onclick="openTrackOrderModal()" class="hover:text-gold-400 transition-colors">Télécharger un reçu PDF</button></li>
+                        </ul>
+                    </div>
+
+                    <!-- Legal -->
+                    <div>
+                        <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Informations Légales</h4>
+                        <ul class="space-y-2.5 text-sm text-zinc-400">
+                            <li><button onclick="openLegalModal('cgv')" class="hover:text-gold-400 transition-colors text-left">Conditions générales de vente (CGV)</button></li>
+                            <li><button onclick="openLegalModal('cgl')" class="hover:text-gold-400 transition-colors text-left">Conditions générales de location (CGL)</button></li>
+                            <li><button onclick="openLegalModal('privacy')" class="hover:text-gold-400 transition-colors text-left">Politique de confidentialité</button></li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact & Wave -->
+                    <div>
+                        <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Contact & Paiement</h4>
+                        <ul class="space-y-3 text-sm text-zinc-400">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-location-dot text-gold-500 mt-1"></i>
+                                <span>Cocody Riviera Palmeraie / Boulevard Lagunaire, Abidjan, Côte d'Ivoire</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-phone text-gold-500"></i>
+                                <a href="tel:+2250585878013" class="text-white font-medium hover:text-gold-400">05 85 87 80 13</a>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-brands fa-whatsapp text-emerald-500 text-base"></i>
+                                <a href="https://wa.me/2250585878013" target="_blank" class="text-emerald-400 font-medium hover:underline">+225 05 85 87 80 13</a>
+                            </li>
+                            <li class="pt-2">
+                                <div class="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-sky-500/10 border border-sky-500/30">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+                                    <span class="text-xs font-semibold text-sky-300">Paiement officiel : WAVE (05 85 87 80 13)</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+                    <p>&copy; 2026 NOVADRIVE CI — Côte d'Ivoire. Tous droits réservés.</p>
+                    <p>Devise officielle : Franc CFA (FCFA / XOF)</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- ==================== FLOATING WHATSAPP BUTTON ==================== -->
+    <a href="https://wa.me/2250585878013?text=Bonjour%20NOVADRIVE%20CI%2C%20je%20souhaite%20avoir%20des%20informations%20sur%20vos%20v%C3%A9hicules." 
+       target="_blank" 
+       aria-label="Contacter sur WhatsApp"
+       class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-2xl shadow-emerald-500/40 hover:scale-110 transition-transform whatsapp-pulse">
+        <i class="fa-brands fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- ==================== VEHICLE DETAILS MODAL ==================== -->
+    <div id="vehicle-detail-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-sm p-4 flex items-center justify-center">
+        <div class="bg-obsidian-900 border border-zinc-800 rounded-2xl max-w-4xl w-full overflow-hidden shadow-2xl my-8">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-zinc-800">
+                <h3 id="detail-modal-title" class="font-serif text-xl font-bold text-white">Détails du véhicule</h3>
+                <button onclick="closeModal('vehicle-detail-modal')" class="w-9 h-9 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="detail-modal-body" class="p-6 max-h-[82vh] overflow-y-auto">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== ORDER / BOOKING + WAVE PAYMENT MODAL ==================== -->
+    <div id="checkout-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-sm p-4 flex items-center justify-center">
+        <div class="bg-obsidian-900 border border-zinc-800 rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl my-8">
+            <!-- Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-obsidian-950">
+                <div class="flex items-center gap-3">
+                    <span id="checkout-type-badge" class="px-3 py-1 rounded-full text-xs font-bold uppercase bg-gold-500 text-obsidian-950">Achat</span>
+                    <h3 id="checkout-modal-title" class="font-serif text-lg sm:text-xl font-bold text-white">Finaliser votre demande</h3>
+                </div>
+                <button onclick="closeModal('checkout-modal')" class="w-9 h-9 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Form Body -->
+            <form id="checkout-form" onsubmit="submitOrderForm(event)" class="p-6 max-h-[82vh] overflow-y-auto space-y-6">
+                <input type="hidden" id="checkout-vehicle-id">
+                <input type="hidden" id="checkout-order-type">
+
+                <!-- Selected Vehicle Summary Card -->
+                <div class="flex items-center gap-4 p-4 rounded-xl bg-obsidian-950 border border-zinc-800">
+                    <img id="checkout-vehicle-img" src="" alt="Véhicule" class="w-24 h-16 object-cover rounded-lg bg-zinc-800">
+                    <div class="flex-1 min-w-0">
+                        <h4 id="checkout-vehicle-name" class="font-bold text-white text-base truncate"></h4>
+                        <p id="checkout-vehicle-specs" class="text-xs text-zinc-400 mt-0.5"></p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[11px] text-zinc-400 block" id="checkout-price-label">Prix</span>
+                        <span id="checkout-unit-price" class="font-bold text-gold-400 text-sm sm:text-base"></span>
+                    </div>
+                </div>
+
+                <!-- Client Information -->
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-gold-400 mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-user"></i> 1. Vos Coordonnées Complètes (Particulier / Organisation)
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-zinc-300 mb-1">Type de client *</label>
+                            <select id="client-profile-type" onchange="toggleOrganizationFields()" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                                <option value="Particulier">Particulier</option>
+                                <option value="Entreprise / Organisation">Entreprise / Organisation / ONG</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-300 mb-1">Nom et prénoms du responsable / acheteur *</label>
+                            <input type="text" id="client-name" required placeholder="Ex: Kouassi Jean-Marc" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                        </div>
+                        <div id="org-name-group" class="hidden">
+                            <label class="block text-xs text-zinc-300 mb-1">Nom de l'organisation / entreprise *</label>
+                            <input type="text" id="client-organization" placeholder="Ex: Société Ivoire BTP SARL" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                        </div>
+                        <div id="org-role-group" class="hidden">
+                            <label class="block text-xs text-zinc-300 mb-1">Fonction / Poste (ou N° RCCM / CC)</label>
+                            <input type="text" id="client-org-role" placeholder="Ex: Directeur Logistique / CI-ABJ-..." class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-300 mb-1">Numéro de téléphone (WhatsApp) *</label>
+                            <input type="tel" id="client-phone" required placeholder="Ex: 07 08 09 10 11" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-300 mb-1">Adresse e-mail *</label>
+                            <input type="email" id="client-email" required placeholder="client@exemple.ci" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-300 mb-1">Ville et commune *</label>
+                            <input type="text" id="client-city" required placeholder="Ex: Abidjan, Cocody" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-300 mb-1">Lieu de récupération / livraison *</label>
+                            <select id="rental-pickup-location" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                                <option value="Agence Cocody Riviera Palmeraie">Agence Cocody Riviera Palmeraie</option>
+                                <option value="Aéroport International Félix Houphouët-Boigny">Aéroport Félix Houphouët-Boigny (Port-Bouët)</option>
+                                <option value="Abidjan Plateau">Abidjan Plateau</option>
+                                <option value="Marcory Zone 4">Marcory Zone 4</option>
+                                <option value="Livraison gratuite à domicile (Abidjan)">Livraison gratuite à domicile (Abidjan)</option>
+                            </select>
+                            <span class="text-[11px] text-emerald-400 font-medium mt-1 block"><i class="fa-solid fa-circle-check mr-1"></i>Livraison gratuite incluse</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rental Specific Fields (Hidden for Purchase) -->
+                <div id="rental-fields-section" class="hidden space-y-4 pt-2 border-t border-zinc-800">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-gold-400 flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-days"></i> 2. Détails de la Location
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-zinc-300 mb-1">Date de début de location *</label>
+                            <input type="date" id="rental-start-date" onchange="calculateRentalTotal()" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-300 mb-1">Date de fin de location *</label>
+                            <input type="date" id="rental-end-date" onchange="calculateRentalTotal()" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-300 mb-1">Heure de récupération *</label>
+                            <input type="time" id="rental-pickup-time" value="09:00" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-300 mb-1">Lieu de récupération *</label>
+                            <select id="rental-pickup-location" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                                <option value="Agence Cocody Riviera Palmeraie">Agence Cocody Riviera Palmeraie</option>
+                                <option value="Aéroport International Félix Houphouët-Boigny">Aéroport Félix Houphouët-Boigny (Port-Bouët)</option>
+                                <option value="Abidjan Plateau">Abidjan Plateau</option>
+                                <option value="Marcory Zone 4">Marcory Zone 4</option>
+                                <option value="Livraison à domicile (Abidjan)">Livraison à domicile (Abidjan)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Auto Calculation Summary Box -->
+                    <div class="grid grid-cols-3 gap-3 p-4 rounded-xl bg-zinc-900/90 border border-gold-500/30">
+                        <div>
+                            <span class="text-[11px] text-zinc-400 block">Durée / Jours</span>
+                            <span id="rental-days-display" class="text-base font-bold text-white">1 jour</span>
+                        </div>
+                        <div>
+                            <span class="text-[11px] text-zinc-400 block">Prix journalier</span>
+                            <span id="rental-daily-display" class="text-base font-bold text-zinc-200">0 FCFA</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[11px] text-gold-400 block">Montant Total</span>
+                            <span id="rental-total-display" class="text-base sm:text-lg font-extrabold text-gold-400">0 FCFA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Message -->
+                <div>
+                    <label class="block text-xs text-zinc-300 mb-1">Message ou informations complémentaires</label>
+                    <textarea id="client-message" rows="2" placeholder="Précisions sur la livraison, besoin d'un chauffeur, questions..." class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500"></textarea>
+                </div>
+
+                <!-- 5. PAIEMENT PAR WAVE SECTION -->
+                <div class="p-5 rounded-2xl bg-gradient-to-br from-sky-950/60 to-obsidian-950 border border-sky-500/40 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-sky-500/20">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-sky-500 flex items-center justify-center text-white font-extrabold text-lg shadow-lg shadow-sky-500/30">
+                                <i class="fa-solid fa-wave-square"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm sm:text-base">Paiement Mobile Money : WAVE uniquement</h4>
+                                <p class="text-xs text-sky-300">Bénéficiaire : <strong id="wave-beneficiary-display">NOVADRIVE CI</strong></p>
+                            </div>
+                        </div>
+                        <div class="bg-sky-500/20 border border-sky-400/40 px-3.5 py-1.5 rounded-xl flex items-center gap-2">
+                            <span class="text-xs text-sky-200">N° Wave :</span>
+                            <strong class="text-sm sm:text-base font-mono font-bold text-white tracking-wider">05 85 87 80 13</strong>
+                            <button type="button" onclick="copyWaveNumber()" class="text-sky-300 hover:text-white ml-1" title="Copier le numéro">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between bg-obsidian-950/80 px-4 py-3 rounded-xl border border-zinc-800">
+                        <span class="text-xs sm:text-sm text-zinc-300">Montant total à régler via Wave :</span>
+                        <span id="wave-amount-to-pay" class="text-lg sm:text-xl font-extrabold text-gold-400">0 FCFA</span>
+                    </div>
+
+                    <div class="text-xs text-zinc-300 space-y-1 bg-sky-950/30 p-3 rounded-xl">
+                        <p class="font-semibold text-sky-300"><i class="fa-solid fa-circle-info mr-1"></i> Instructions de paiement :</p>
+                        <ol class="list-decimal list-inside space-y-1 text-zinc-300">
+                            <li>Ouvrez votre application <strong>Wave</strong> et effectuez un transfert vers le <strong>05 85 87 80 13</strong>.</li>
+                            <li>Notez l'ID de transaction Wave reçu par SMS / dans l'application (ou laissez vide si vous payez à la livraison/agence).</li>
+                            <li>Joignez une capture d'écran de votre reçu Wave si disponible. Le statut restera <em>« En attente de vérification »</em> jusqu'à validation par notre équipe.</li>
+                        </ol>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-zinc-300 mb-1">Référence de transaction Wave</label>
+                            <input type="text" id="wave-tx-ref" placeholder="Ex: T241120.1432.A9821" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-sky-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-300 mb-1">Preuve / Capture d'écran Wave (Optionnel)</label>
+                            <input type="file" id="wave-proof-file" accept="image/*" onchange="handleProofUpload(event)" class="w-full text-xs text-zinc-400 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-sky-500/20 file:text-sky-300 hover:file:bg-sky-500/30 bg-obsidian-950 border border-zinc-700 rounded-xl p-1">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-2 flex flex-col sm:flex-row items-center justify-end gap-3">
+                    <button type="button" onclick="closeModal('checkout-modal')" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-sm font-medium text-zinc-200">
+                        Annuler
+                    </button>
+                    <button type="submit" id="checkout-submit-btn" class="w-full sm:w-auto gold-gradient text-obsidian-950 font-bold px-8 py-3.5 rounded-xl shadow-xl shadow-gold-500/20 hover:brightness-110 transition-all flex items-center justify-center gap-2 text-sm sm:text-base">
+                        <i class="fa-solid fa-check-circle"></i>
+                        <span id="checkout-submit-label">Confirmer ma commande</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== ORDER CONFIRMATION & RECEIPT MODAL ==================== -->
+    <div id="confirmation-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-sm p-4 flex items-center justify-center">
+        <div class="bg-obsidian-900 border border-zinc-800 rounded-2xl max-w-xl w-full overflow-hidden shadow-2xl my-8">
+            <div class="p-6 sm:p-8 text-center">
+                <div class="w-16 h-16 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto mb-5">
+                    <i class="fa-solid fa-check text-3xl"></i>
+                </div>
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">
+                    Statut paiement : En attente de vérification
+                </span>
+                <h3 class="font-serif text-2xl font-bold text-white mt-4">Demande Enregistrée !</h3>
+                <p class="text-sm text-zinc-400 mt-2">
+                    Votre dossier a été enregistré sous la référence <strong id="conf-order-ref" class="text-gold-400 font-mono"></strong>.
+                </p>
+
+                <!-- Summary Card -->
+                <div class="mt-6 p-4 rounded-xl bg-obsidian-950 border border-zinc-800 text-left space-y-2 text-xs sm:text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-zinc-400">Véhicule :</span>
+                        <span id="conf-vehicle" class="text-white font-semibold"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-zinc-400">Type :</span>
+                        <span id="conf-type" class="text-white font-medium capitalize"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-zinc-400">Montant Total :</span>
+                        <span id="conf-amount" class="text-gold-400 font-bold"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-zinc-400">Moyen de paiement :</span>
+                        <span class="text-sky-400 font-semibold">Wave (05 85 87 80 13)</span>
+                    </div>
+                </div>
+
+                <!-- Important Notice -->
+                <p class="text-[11px] text-zinc-400 mt-4 bg-zinc-900 p-3 rounded-xl border border-zinc-800">
+                    <i class="fa-solid fa-shield-halved text-gold-500 mr-1"></i>
+                    Ce document est un <strong>reçu de commande</strong>. Le reçu officiel de paiement acquitté sera disponible dès vérification de votre transfert Wave par l'administrateur.
+                </p>
+
+                <!-- Action Buttons: Download PDF & Send to WhatsApp -->
+                <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                    <button id="conf-download-pdf-btn" class="flex-1 gold-gradient text-obsidian-950 font-bold py-3.5 px-5 rounded-xl flex items-center justify-center gap-2 text-sm hover:brightness-110 transition-all">
+                        <i class="fa-solid fa-file-pdf text-base"></i>
+                        <span>Télécharger mon reçu PDF</span>
+                    </button>
+                    <a id="conf-whatsapp-btn" href="#" target="_blank" class="flex-1 bg-[#25D366] hover:brightness-110 text-white font-bold py-3.5 px-5 rounded-xl flex items-center justify-center gap-2 text-sm transition-all">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Envoyer sur WhatsApp</span>
+                    </a>
+                </div>
+
+                <button onclick="closeModal('confirmation-modal')" class="mt-5 text-xs text-zinc-400 hover:text-white underline">
+                    Fermer et retourner au catalogue
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TRACK ORDER / RECEIPT SEARCH MODAL ==================== -->
+    <div id="track-order-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-sm p-4 flex items-center justify-center">
+        <div class="bg-obsidian-900 border border-zinc-800 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-zinc-800">
+                <h3 class="font-serif text-lg font-bold text-white">Suivi de Commande & Reçu PDF</h3>
+                <button onclick="closeModal('track-order-modal')" class="w-8 h-8 rounded-lg bg-zinc-800 text-zinc-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <p class="text-xs text-zinc-400">Saisissez votre référence de commande (ex: <span class="text-gold-400 font-mono">IPM-2026-...</span>) ou votre numéro de téléphone pour retrouver votre dossier et télécharger votre reçu PDF actualisé.</p>
+                <div class="flex gap-2">
+                    <input type="text" id="track-query-input" placeholder="Référence ou téléphone..." class="flex-1 bg-obsidian-950 border border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                    <button onclick="searchClientOrders()" class="px-5 py-2.5 rounded-xl gold-gradient text-obsidian-950 font-bold text-sm">Rechercher</button>
+                </div>
+                <div id="track-results-container" class="space-y-3 max-h-72 overflow-y-auto pt-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== LEGAL MODAL ==================== -->
+    <div id="legal-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-sm p-4 flex items-center justify-center">
+        <div class="bg-obsidian-900 border border-zinc-800 rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-zinc-800">
+                <h3 id="legal-modal-title" class="font-serif text-lg font-bold text-white">Mentions Légales</h3>
+                <button onclick="closeModal('legal-modal')" class="w-8 h-8 rounded-lg bg-zinc-800 text-zinc-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="legal-modal-content" class="p-6 text-sm text-zinc-300 space-y-3 max-h-[70vh] overflow-y-auto leading-relaxed"></div>
+        </div>
+    </div>
+
+    <!-- ==================== ADMIN LOGIN MODAL ==================== -->
+    <div id="admin-login-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/90 backdrop-blur-md p-4 flex items-center justify-center">
+        <div class="bg-obsidian-900 border border-zinc-800 rounded-2xl max-w-md w-full p-6 sm:p-8 shadow-2xl">
+            <div class="flex justify-between items-start mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-xl gold-gradient flex items-center justify-center text-obsidian-950">
+                        <i class="fa-solid fa-lock text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-xl font-bold text-white">Accès Administrateur</h3>
+                        <p class="text-xs text-zinc-400">NOVADRIVE CI</p>
+                    </div>
+                </div>
+                <button onclick="closeModal('admin-login-modal')" class="w-8 h-8 rounded-lg bg-zinc-800 text-zinc-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1.5">Identifiant administrateur</label>
+                    <input type="text" id="admin-username" required value="admin" placeholder="Identifiant" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-500">
+                </div>
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1.5">Code d'accès / Mot de passe</label>
+                    <input type="password" id="admin-password" required placeholder="••••••••" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-500">
+                </div>
+                <p id="admin-login-error" class="hidden text-xs text-red-400 bg-red-500/10 border border-red-500/30 p-2.5 rounded-lg"></p>
+                <button type="submit" class="w-full gold-gradient text-obsidian-950 font-bold py-3.5 rounded-xl text-sm shadow-lg shadow-gold-500/20 hover:brightness-110 transition-all">
+                    Se connecter au tableau de bord
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== ADMIN DASHBOARD VIEW (HIDDEN BY DEFAULT) ==================== -->
+    <section id="admin-view" class="hidden pt-24 pb-20 min-h-screen bg-obsidian-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- First Login Security Banner -->
+            <div id="first-login-warning" class="hidden mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-400 text-xl"></i>
+                    <div>
+                        <h4 class="text-sm font-bold text-amber-300">Sécurité : Modification du mot de passe initial recommandée</h4>
+                        <p class="text-xs text-zinc-300">Vous utilisez actuellement le code initial par défaut. Veuillez définir un mot de passe personnel sécurisé.</p>
+                    </div>
+                </div>
+                <button onclick="openChangePasswordModal()" class="px-4 py-2 rounded-xl bg-amber-500 text-obsidian-950 font-bold text-xs whitespace-nowrap">
+                    Modifier maintenant
+                </button>
+            </div>
+
+            <!-- Admin Top Bar -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-800 mb-8">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-gold-400">Administration Sécurisée</span>
+                    </div>
+                    <h1 class="font-serif text-2xl sm:text-3xl font-bold text-white mt-1">Tableau de Bord Commercial</h1>
+                </div>
+                <div class="flex flex-wrap items-center gap-3">
+                    <button onclick="openChangePasswordModal()" class="px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs font-semibold text-zinc-200 flex items-center gap-2">
+                        <i class="fa-solid fa-key text-gold-400"></i>
+                        <span>Changer mot de passe</span>
+                    </button>
+                    <button onclick="switchView('client')" class="px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs font-semibold text-zinc-200 flex items-center gap-2">
+                        <i class="fa-solid fa-eye"></i>
+                        <span>Voir le site public</span>
+                    </button>
+                    <button onclick="logoutAdmin()" class="px-4 py-2.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-xs font-semibold text-red-400 flex items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Déconnexion</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 8. KPI STATISTICS CARDS -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4 mb-8">
+                <div class="bg-obsidian-900 p-4 rounded-2xl border border-zinc-800">
+                    <span class="text-[11px] text-zinc-400 block">Total Véhicules</span>
+                    <span id="stat-total-cars" class="text-2xl font-bold text-white mt-1 block">0</span>
+                </div>
+                <div class="bg-obsidian-900 p-4 rounded-2xl border border-zinc-800">
+                    <span class="text-[11px] text-zinc-400 block">Disponibles</span>
+                    <span id="stat-avail-cars" class="text-2xl font-bold text-emerald-400 mt-1 block">0</span>
+                </div>
+                <div class="bg-obsidian-900 p-4 rounded-2xl border border-zinc-800">
+                    <span class="text-[11px] text-zinc-400 block">Total Commandes</span>
+                    <span id="stat-total-orders" class="text-2xl font-bold text-white mt-1 block">0</span>
+                </div>
+                <div class="bg-obsidian-900 p-4 rounded-2xl border border-zinc-800">
+                    <span class="text-[11px] text-zinc-400 block">Locations</span>
+                    <span id="stat-rentals" class="text-2xl font-bold text-sky-400 mt-1 block">0</span>
+                </div>
+                <div class="bg-obsidian-900 p-4 rounded-2xl border border-zinc-800">
+                    <span class="text-[11px] text-zinc-400 block">Paiements Attente</span>
+                    <span id="stat-pending-pay" class="text-2xl font-bold text-amber-400 mt-1 block">0</span>
+                </div>
+                <div class="bg-obsidian-900 p-4 rounded-2xl border border-zinc-800">
+                    <span class="text-[11px] text-zinc-400 block">Paiements Confirmés</span>
+                    <span id="stat-confirmed-pay" class="text-2xl font-bold text-emerald-400 mt-1 block">0</span>
+                </div>
+                <div class="col-span-2 sm:col-span-2 lg:col-span-1 bg-gradient-to-br from-gold-500/20 to-obsidian-900 p-4 rounded-2xl border border-gold-500/40">
+                    <span class="text-[11px] text-gold-300 block">Chiffre d'Affaires</span>
+                    <span id="stat-revenue" class="text-base sm:text-lg font-extrabold text-gold-400 mt-1 block truncate">0 FCFA</span>
+                </div>
+            </div>
+
+            <!-- Admin Navigation Tabs -->
+            <div class="flex flex-wrap gap-2 mb-6 border-b border-zinc-800 pb-4">
+                <button id="admin-tab-orders" onclick="switchAdminTab('orders')" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-gold-500 text-obsidian-950">
+                    <i class="fa-solid fa-clipboard-list mr-2"></i>Commandes, Réservations & Paiements Wave
+                </button>
+                <button id="admin-tab-vehicles" onclick="switchAdminTab('vehicles')" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-obsidian-900 text-zinc-300 hover:text-white border border-zinc-800">
+                    <i class="fa-solid fa-car mr-2"></i>Gestion du Parc Automobile
+                </button>
+                <button id="admin-tab-settings" onclick="switchAdminTab('settings')" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-obsidian-900 text-zinc-300 hover:text-white border border-zinc-800">
+                    <i class="fa-solid fa-gear mr-2"></i>Paramètres Wave & Entreprise
+                </button>
+            </div>
+
+            <!-- ADMIN PANEL 1: ORDERS & WAVE VERIFICATION -->
+            <div id="admin-panel-orders" class="space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <h2 class="text-lg font-bold text-white">Suivi des Commandes, Réservations & Vérification Wave</h2>
+                    <div class="flex gap-2">
+                        <select id="admin-order-filter" onchange="renderAdminOrders()" class="bg-obsidian-900 border border-zinc-700 rounded-xl px-3.5 py-2 text-xs text-white">
+                            <option value="all">Toutes les demandes</option>
+                            <option value="vente">Achats uniquement</option>
+                            <option value="location">Locations uniquement</option>
+                            <option value="pending_payment">Paiements Wave à vérifier</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="bg-obsidian-900 border border-zinc-800 rounded-2xl overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-obsidian-950 border-b border-zinc-800 text-[11px] uppercase tracking-wider text-zinc-400">
+                                    <th class="py-3.5 px-4">Réf / Date</th>
+                                    <th class="py-3.5 px-4">Client</th>
+                                    <th class="py-3.5 px-4">Véhicule & Type</th>
+                                    <th class="py-3.5 px-4">Montant & Wave</th>
+                                    <th class="py-3.5 px-4">Statut Paiement</th>
+                                    <th class="py-3.5 px-4">Statut Commande</th>
+                                    <th class="py-3.5 px-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-orders-tbody" class="divide-y divide-zinc-800/80 text-xs sm:text-sm">
+                                <!-- Populated via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN PANEL 2: VEHICLES MANAGEMENT -->
+            <div id="admin-panel-vehicles" class="hidden space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Gestion du Catalogue Véhicules</h2>
+                        <p class="text-xs text-zinc-400">Ajoutez, modifiez ou mettez à jour la disponibilité et les tarifs en FCFA.</p>
+                    </div>
+                    <button onclick="openVehicleFormModal()" class="gold-gradient text-obsidian-950 font-bold px-5 py-3 rounded-xl text-xs sm:text-sm flex items-center gap-2 self-start shadow-lg shadow-gold-500/20">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Ajouter un nouveau véhicule</span>
+                    </button>
+                </div>
+
+                <div id="admin-vehicles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- ADMIN PANEL 3: SETTINGS -->
+            <div id="admin-panel-settings" class="hidden max-w-2xl">
+                <div class="bg-obsidian-900 border border-zinc-800 rounded-2xl p-6 space-y-5">
+                    <h3 class="text-lg font-bold text-white">Configuration Wave, Page Facebook & Entreprise</h3>
+                    <form onsubmit="saveCompanySettings(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs text-zinc-400 mb-1">Nom de l'entreprise</label>
+                            <input type="text" id="setting-company-name" value="NOVADRIVE CI" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-400 mb-1">Nom du bénéficiaire Wave affiché aux clients</label>
+                            <input type="text" id="setting-wave-beneficiary" value="NOVADRIVE CI" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-400 mb-1">Lien de votre Page Facebook officielle (URL)</label>
+                            <input type="url" id="setting-facebook-url" placeholder="https://www.facebook.com/VotrePageNovaDriveCI" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-white">
+                            <p class="text-[11px] text-zinc-500 mt-1">Ajoutez l'URL de votre site web dans la section « Site web » de votre Page Facebook : vos abonnés arriveront ici et pourront commander directement via WhatsApp.</p>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-400 mb-1">Numéro Wave & WhatsApp officiel</label>
+                            <input type="text" value="05 85 87 80 13 (+2250585878013)" disabled class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm text-zinc-400">
+                        </div>
+                        <button type="submit" class="gold-gradient text-obsidian-950 font-bold px-6 py-3 rounded-xl text-sm">
+                            Enregistrer la configuration
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ADMIN: ADD / EDIT VEHICLE MODAL ==================== -->
+    <div id="admin-vehicle-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-sm p-4 flex items-center justify-center">
+        <div class="bg-obsidian-900 border border-zinc-800 rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl my-8">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-zinc-800">
+                <h3 id="vehicle-form-title" class="font-serif text-xl font-bold text-white">Ajouter un véhicule</h3>
+                <button onclick="closeModal('admin-vehicle-modal')" class="w-8 h-8 rounded-lg bg-zinc-800 text-zinc-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form id="admin-vehicle-form" onsubmit="saveVehicleForm(event)" class="p-6 max-h-[80vh] overflow-y-auto space-y-4">
+                <input type="hidden" id="edit-vehicle-id">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-zinc-300 mb-1">Marque *</label>
+                        <input type="text" id="v-brand" required placeholder="Ex: Toyota, Mercedes-Benz, Hyundai" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-zinc-300 mb-1">Modèle *</label>
+                        <input type="text" id="v-model" required placeholder="Ex: Land Cruiser Prado TXL" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-zinc-300 mb-1">Année de fabrication *</label>
+                        <input type="number" id="v-year" required min="2005" max="2027" value="2024" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-zinc-300 mb-1">Catégorie d'offre *</label>
+                        <select id="v-category" onchange="toggleVehiclePriceInputs()" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                            <option value="vente">A. Voiture à vendre uniquement</option>
+                            <option value="location">B. Voiture à louer uniquement</option>
+                            <option value="both">Vente & Location</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-zinc-300 mb-1">Carburant *</label>
+                        <select id="v-fuel" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                            <option value="Diesel">Diesel</option>
+                            <option value="Essence">Essence</option>
+                            <option value="Hybride">Hybride</option>
+                            <option value="Électrique">Électrique</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-zinc-300 mb-1">Boîte de vitesse *</label>
+                        <select id="v-transmission" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                            <option value="Automatique">Automatique</option>
+                            <option value="Manuelle">Manuelle</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-zinc-300 mb-1">Kilométrage (km) *</label>
+                        <input type="number" id="v-mileage" required value="15000" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-zinc-300 mb-1">Couleur *</label>
+                        <input type="text" id="v-color" required placeholder="Ex: Noir Obsidienne" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                    </div>
+                    <div id="v-sale-price-group">
+                        <label class="block text-xs text-zinc-300 mb-1">Prix de vente (FCFA)</label>
+                        <input type="number" id="v-sale-price" value="28500000" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                    </div>
+                    <div id="v-rent-price-group">
+                        <label class="block text-xs text-zinc-300 mb-1">Prix de location / jour (FCFA)</label>
+                        <input type="number" id="v-rent-price" value="75000" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs text-zinc-300 mb-1">Disponibilité</label>
+                        <select id="v-available" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                            <option value="true">Disponible immédiatement</option>
+                            <option value="false">Indisponible / Réservé</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-zinc-300 mb-1">Photos du véhicule (URLs séparées par des virgules ou une par ligne) *</label>
+                    <textarea id="v-photos" rows="2" required placeholder="https://images.unsplash.com/photo-1..., https://..." class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-xs text-white font-mono"></textarea>
+                    <p class="text-[11px] text-zinc-500 mt-1">Ajoutez plusieurs liens d'images haute définition pour alimenter la galerie du véhicule.</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-zinc-300 mb-1">Description détaillée *</label>
+                    <textarea id="v-description" rows="3" required placeholder="Équipements, état général, climatisation, intérieur cuir..." class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white"></textarea>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-3 border-t border-zinc-800">
+                    <button type="button" onclick="closeModal('admin-vehicle-modal')" class="px-5 py-2.5 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-300">Annuler</button>
+                    <button type="submit" class="gold-gradient text-obsidian-950 font-bold px-6 py-2.5 rounded-xl text-xs sm:text-sm">Enregistrer le véhicule</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== ADMIN: CHANGE PASSWORD MODAL ==================== -->
+    <div id="change-password-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-sm p-4 flex items-center justify-center">
+        <div class="bg-obsidian-900 border border-zinc-800 rounded-2xl max-w-md w-full p-6 shadow-2xl">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-serif text-lg font-bold text-white">Modifier le mot de passe Admin</h3>
+                <button onclick="closeModal('change-password-modal')" class="w-8 h-8 rounded-lg bg-zinc-800 text-zinc-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form onsubmit="handleChangeAdminPassword(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">Nouveau mot de passe *</label>
+                    <input type="password" id="new-admin-pass" required minlength="6" placeholder="Minimum 6 caractères" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-white">
+                </div>
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">Confirmer le nouveau mot de passe *</label>
+                    <input type="password" id="confirm-admin-pass" required minlength="6" placeholder="Répétez le mot de passe" class="w-full bg-obsidian-950 border border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-white">
+                </div>
+                <button type="submit" class="w-full gold-gradient text-obsidian-950 font-bold py-3 rounded-xl text-sm">
+                    Mettre à jour le mot de passe
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== ADMIN: VIEW WAVE PROOF MODAL ==================== -->
+    <div id="wave-proof-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/90 backdrop-blur-sm p-4 flex items-center justify-center">
+        <div class="bg-obsidian-900 border border-zinc-800 rounded-2xl max-w-lg w-full p-5 shadow-2xl">
+            <div class="flex items-center justify-between mb-3">
+                <h4 class="font-bold text-white text-sm">Preuve de Paiement Wave</h4>
+                <button onclick="closeModal('wave-proof-modal')" class="w-8 h-8 rounded-lg bg-zinc-800 text-zinc-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="wave-proof-content" class="text-center"></div>
+        </div>
+    </div>
+
+    <!-- ==================== APPLICATION LOGIC & CLOUD PERSISTENCE ==================== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global State
+        let db = null;
+        let auth = null;
+        let currentUser = null;
+        let appId = typeof __app_id !== 'undefined' ? __app_id : 'ivoire-prestige-motors';
+        let isCloudReady = false;
+
+        // Application Data Store
+        let vehicles = [];
+        let orders = [];
+        let adminConfig = {
+            username: 'admin',
+            passwordHash: '', // Initialized securely via SHA-256
+            isDefaultPassword: true,
+            companyName: 'NOVADRIVE CI',
+            waveBeneficiary: 'NOVADRIVE CI',
+            facebookUrl: 'https://www.facebook.com'
+        };
+
+        let isAdminAuthenticated = false;
+        let currentCatalogFilter = 'all';
+        let uploadedProofDataUrl = '';
+
+        // Initial Seed Vehicles (High-end Cote d'Ivoire market)
+        const SEED_VEHICLES = [
+            {
+                id: 'veh-prado-2024',
+                brand: 'Toyota',
+                model: 'Land Cruiser Prado TXL',
+                year: 2024,
+                category: 'both',
+                fuel: 'Diesel',
+                transmission: 'Automatique',
+                mileage: 8500,
+                color: 'Noir Obsidienne',
+                salePrice: 44500000,
+                rentPrice: 95000,
+                available: true,
+                photos: [
+                    'https://images.unsplash.com/photo-1594502184342-2e12f877aa73?auto=format&fit=crop&w=1000&q=80',
+                    'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1000&q=80',
+                    'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80'
+                ],
+                description: '4x4 de référence en Côte d\'Ivoire. Intérieur cuir beige, 7 places, climatisation tri-zone, caméra 360°, idéal pour Abidjan et les missions à l\'intérieur du pays.'
+            },
+            {
+                id: 'veh-gle-2023',
+                brand: 'Mercedes-Benz',
+                model: 'GLE 350d AMG Line',
+                year: 2023,
+                category: 'vente',
+                fuel: 'Diesel',
+                transmission: 'Automatique',
+                mileage: 19200,
+                color: 'Blanc Polaire',
+                salePrice: 52000000,
+                rentPrice: 130000,
+                available: true,
+                photos: [
+                    'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1000&q=80',
+                    'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&w=1000&q=80'
+                ],
+                description: 'SUV de grand luxe doté du pack AMG Line, toit ouvrant panoramique, sonorisation Burmester, suspensions pneumatiques Airmatic et historique d\'entretien certifié.'
+            },
+            {
+                id: 'veh-tucson-2024',
+                brand: 'Hyundai',
+                model: 'Tucson N-Line',
+                year: 2024,
+                category: 'location',
+                fuel: 'Essence',
+                transmission: 'Automatique',
+                mileage: 12400,
+                color: 'Gris Titane',
+                salePrice: 21500000,
+                rentPrice: 45000,
+                available: true,
+                photos: [
+                    'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=1000&q=80',
+                    'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1000&q=80'
+                ],
+                description: 'SUV urbain moderne, économique et ultra-confortable. Écran tactile Apple CarPlay / Android Auto, radar de recul, climatisation automatique bi-zone.'
+            },
+            {
+                id: 'veh-range-2023',
+                brand: 'Range Rover',
+                model: 'Velar R-Dynamic HSE',
+                year: 2023,
+                category: 'both',
+                fuel: 'Essence',
+                transmission: 'Automatique',
+                mileage: 14000,
+                color: 'Noir Santorini',
+                salePrice: 58000000,
+                rentPrice: 140000,
+                available: true,
+                photos: [
+                    'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1000&q=80',
+                    'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1000&q=80'
+                ],
+                description: 'Élégance britannique absolue. Poignées affleurantes, double écran tactile Pivi Pro, sellerie cuir Windsor perforé, parfait pour cérémonies et déplacements VIP.'
+            },
+            {
+                id: 'veh-corolla-2023',
+                brand: 'Toyota',
+                model: 'Corolla Cross Hybride',
+                year: 2023,
+                category: 'location',
+                fuel: 'Hybride',
+                transmission: 'Automatique',
+                mileage: 22000,
+                color: 'Argent Métallisé',
+                salePrice: 18500000,
+                rentPrice: 35000,
+                available: true,
+                photos: [
+                    'https://images.unsplash.com/photo-1623869675781-80aa31012a5a?auto=format&fit=crop&w=1000&q=80',
+                    'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1000&q=80'
+                ],
+                description: 'Fiabilité Toyota légendaire associée à une consommation de carburant réduite de 40%. Idéale pour vos déplacements quotidiens à Abidjan.'
+            },
+            {
+                id: 'veh-hilux-2024',
+                brand: 'Toyota',
+                model: 'Hilux Adventure 4x4',
+                year: 2024,
+                category: 'vente',
+                fuel: 'Diesel',
+                transmission: 'Automatique',
+                mileage: 5200,
+                color: 'Rouge Grenat',
+                salePrice: 31000000,
+                rentPrice: 65000,
+                available: true,
+                photos: [
+                    'https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&w=1000&q=80',
+                    'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=1000&q=80'
+                ],
+                description: 'Pick-up double cabine haut de gamme prêt pour tous les terrains de Côte d\'Ivoire. Blocage de différentiel, marchepieds, arceau sport et caméra de recul.'
+            }
+        ];
+
+        // Cryptographic Hash helper for Admin Code (keeps ADMIN2026 hashed rather than plaintext check)
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // Format Currency in FCFA
+        function formatFCFA(amount) {
+            if (!amount && amount !== 0) return '0 FCFA';
+            return Number(amount).toLocaleString('fr-FR') + ' FCFA';
+        }
+
+        // Toast Notification System (Replaces alert)
+        window.showToast = function(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const colors = {
+                success: 'bg-emerald-950/95 border-emerald-500/50 text-emerald-200',
+                error: 'bg-red-950/95 border-red-500/50 text-red-200',
+                info: 'bg-obsidian-900/95 border-gold-500/50 text-gold-200'
+            };
+            const icons = {
+                success: 'fa-circle-check text-emerald-400',
+                error: 'fa-circle-exclamation text-red-400',
+                info: 'fa-circle-info text-gold-400'
+            };
+            toast.className = `pointer-events-auto flex items-center gap-3 p-4 rounded-xl border shadow-2xl backdrop-blur-md transition-all transform translate-x-0 ${colors[type] || colors.info}`;
+            toast.innerHTML = `
+                <i class="fa-solid ${icons[type] || icons.info} text-lg"></i>
+                <p class="text-xs sm:text-sm font-medium flex-1">${message}</p>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(20px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 4200);
+        };
+
+        // Initialize Cloud Backend (Firebase Firestore)
+        async function initDatabase() {
+            const defaultHash = await sha256('ADMIN2026');
+            adminConfig.passwordHash = defaultHash;
+            vehicles = [...SEED_VEHICLES];
+
+            try {
+                if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                    const firebaseConfig = JSON.parse(__firebase_config);
+                    const app = initializeApp(firebaseConfig);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+
+                    currentUser = auth.currentUser;
+                    if (currentUser) {
+                        isCloudReady = true;
+                        await setupCloudListeners();
+                    }
+                }
+            } catch (err) {
+                console.warn("Mode mémoire locale actif :", err);
+            }
+
+            populateBrandFilter();
+            renderCatalog();
+            updateAdminStats();
+        }
+
+        async function setupCloudListeners() {
+            if (!db || !currentUser) return;
+
+            // 1. Load or Seed Admin Config
+            const configRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'admin_config');
+            try {
+                const configSnap = await getDoc(configRef);
+                if (configSnap.exists()) {
+                    adminConfig = { ...adminConfig, ...configSnap.data() };
+                } else {
+                    await setDoc(configRef, adminConfig);
+                }
+                applyCompanyConfigToUI();
+            } catch (e) { console.error(e); }
+
+            // 2. Listen to Vehicles Collection
+            const vehiclesCol = collection(db, 'artifacts', appId, 'public', 'data', 'vehicles');
+            onSnapshot(vehiclesCol, async (snapshot) => {
+                if (snapshot.empty) {
+                    for (const v of SEED_VEHICLES) {
+                        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'vehicles', v.id), v);
+                    }
+                } else {
+                    vehicles = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                    populateBrandFilter();
+                    renderCatalog();
+                    if (isAdminAuthenticated) {
+                        renderAdminVehicles();
+                        updateAdminStats();
+                    }
+                }
+            }, (err) => console.error("Vehicles sync error:", err));
+
+            // 3. Listen to Orders Collection
+            const ordersCol = collection(db, 'artifacts', appId, 'public', 'data', 'orders');
+            onSnapshot(ordersCol, (snapshot) => {
+                orders = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                if (isAdminAuthenticated) {
+                    renderAdminOrders();
+                    updateAdminStats();
+                }
+            }, (err) => console.error("Orders sync error:", err));
+        }
+
+        // ==================== CATALOG RENDERING & FILTERING ====================
+        function populateBrandFilter() {
+            const select = document.getElementById('search-brand');
+            const currentVal = select.value;
+            const brands = [...new Set(vehicles.map(v => v.brand))].sort();
+            select.innerHTML = '<option value="">Toutes les marques</option>' + 
+                brands.map(b => `<option value="${b}">${b}</option>`).join('');
+            select.value = currentVal;
+        }
+
+        window.filterCatalog = function(category) {
+            currentCatalogFilter = category;
+            document.getElementById('search-category').value = category;
+
+            ['all', 'vente', 'location'].forEach(tab => {
+                const btn = document.getElementById(`tab-${tab}`);
+                if (tab === category) {
+                    btn.className = 'px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-gold-500 text-obsidian-950';
+                } else {
+                    btn.className = 'px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-zinc-400 hover:text-white';
+                }
+            });
+
+            renderCatalog();
+        };
+
+        window.applyFilters = function() {
+            const cat = document.getElementById('search-category').value;
+            if (cat !== currentCatalogFilter) {
+                filterCatalog(cat);
+            } else {
+                renderCatalog();
+            }
+        };
+
+        window.resetSearchFilters = function() {
+            document.getElementById('search-brand').value = '';
+            document.getElementById('search-model').value = '';
+            document.getElementById('search-price').value = '';
+            filterCatalog('all');
+        };
+
+        function getFilteredVehicles() {
+            const brand = document.getElementById('search-brand').value.toLowerCase();
+            const modelQuery = document.getElementById('search-model').value.toLowerCase().trim();
+            const maxPrice = Number(document.getElementById('search-price').value || 0);
+
+            return vehicles.filter(v => {
+                // Category check
+                if (currentCatalogFilter === 'vente' && v.category !== 'vente' && v.category !== 'both') return false;
+                if (currentCatalogFilter === 'location' && v.category !== 'location' && v.category !== 'both') return false;
+
+                // Brand check
+                if (brand && v.brand.toLowerCase() !== brand) return false;
+
+                // Model / keyword check
+                if (modelQuery && !`${v.brand} ${v.model} ${v.description}`.toLowerCase().includes(modelQuery)) return false;
+
+                // Price check
+                if (maxPrice > 0) {
+                    if (maxPrice <= 500000) {
+                        // Daily rent price filter
+                        if ((v.category !== 'location' && v.category !== 'both') || v.rentPrice > maxPrice) return false;
+                    } else {
+                        // Sale price filter
+                        if ((v.category !== 'vente' && v.category !== 'both') || v.salePrice > maxPrice) return false;
+                    }
+                }
+                return true;
+            });
+        }
+
+        function renderCatalog() {
+            const grid = document.getElementById('vehicles-grid');
+            const empty = document.getElementById('catalog-empty');
+            const filtered = getFilteredVehicles();
+
+            document.getElementById('search-count-badge').textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
+
+            grid.innerHTML = filtered.map(v => {
+                const mainPhoto = (v.photos && v.photos[0]) || 'https://placehold.co/800x500/18181B/D4AF37?text=Vehicule+Prestige';
+                const canBuy = v.category === 'vente' || v.category === 'both';
+                const canRent = v.category === 'location' || v.category === 'both';
+
+                return `
+                <article class="bg-obsidian-900 rounded-2xl border border-zinc-800 hover:border-gold-500/50 overflow-hidden flex flex-col justify-between group transition-all duration-300 shadow-xl">
+                    <div>
+                        <!-- Image Container -->
+                        <div class="relative h-56 overflow-hidden bg-zinc-950 cursor-pointer" onclick="openVehicleDetail('${v.id}')">
+                            <img src="${mainPhoto}" alt="${v.brand} ${v.model}" 
+                                 onerror="this.src='https://placehold.co/800x500/18181B/D4AF37?text=${encodeURIComponent(v.brand + ' ' + v.model)}'"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-obsidian-900 via-transparent to-black/30"></div>
+                            
+                            <!-- Top Badges -->
+                            <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                                ${canBuy ? '<span class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-gold-500 text-obsidian-950 shadow">À VENDRE</span>' : ''}
+                                ${canRent ? '<span class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-sky-500 text-white shadow">À LOUER</span>' : ''}
+                            </div>
+
+                            <!-- Availability Badge -->
+                            <div class="absolute top-3 right-3">
+                                ${v.available 
+                                    ? '<span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 backdrop-blur-md">Disponible</span>'
+                                    : '<span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-red-500/20 text-red-300 border border-red-500/40 backdrop-blur-md">Indisponible</span>'
+                                }
+                            </div>
+
+                            <!-- Photo count -->
+                            <div class="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-black/70 text-zinc-200 text-[11px] flex items-center gap-1.5">
+                                <i class="fa-regular fa-images text-gold-400"></i>
+                                <span>${v.photos ? v.photos.length : 1}</span>
+                            </div>
+                        </div>
+
+                        <!-- Card Content -->
+                        <div class="p-5">
+                            <div class="flex items-start justify-between gap-2 mb-2">
+                                <div>
+                                    <span class="text-xs font-bold uppercase tracking-wider text-gold-400">${v.brand} • ${v.year}</span>
+                                    <h3 class="text-lg font-bold text-white group-hover:text-gold-300 transition-colors cursor-pointer" onclick="openVehicleDetail('${v.id}')">${v.model}</h3>
+                                </div>
+                            </div>
+
+                            <!-- Specs Pills -->
+                            <div class="grid grid-cols-3 gap-2 my-4 py-3 border-y border-zinc-800/80 text-xs text-zinc-300">
+                                <div class="flex items-center gap-1.5">
+                                    <i class="fa-solid fa-gas-pump text-gold-500"></i>
+                                    <span class="truncate">${v.fuel}</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <i class="fa-solid fa-gears text-gold-500"></i>
+                                    <span class="truncate">${v.transmission}</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <i class="fa-solid fa-gauge-high text-gold-500"></i>
+                                    <span class="truncate">${Number(v.mileage).toLocaleString('fr-FR')} km</span>
+                                </div>
+                            </div>
+
+                            <!-- Prices -->
+                            <div class="space-y-1.5 mb-4">
+                                ${canBuy ? `
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-zinc-400">Prix de vente :</span>
+                                    <span class="text-base font-extrabold text-white">${formatFCFA(v.salePrice)}</span>
+                                </div>` : ''}
+                                ${canRent ? `
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-zinc-400">Location / jour :</span>
+                                    <span class="text-sm font-bold text-gold-400">${formatFCFA(v.rentPrice)} <span class="text-[11px] font-normal text-zinc-400">/ jour</span></span>
+                                </div>` : ''}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Footer Actions -->
+                    <div class="px-5 pb-5 pt-0 space-y-2">
+                        <div class="flex gap-2">
+                            ${canBuy ? `
+                            <button onclick="openCheckoutModal('${v.id}', 'vente')" ${!v.available ? 'disabled' : ''} 
+                                class="flex-1 gold-gradient disabled:opacity-40 text-obsidian-950 font-bold py-2.5 px-3 rounded-xl text-xs hover:brightness-110 transition-all flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-bag-shopping"></i>
+                                <span>Acheter cette voiture</span>
+                            </button>` : ''}
+                            ${canRent ? `
+                            <button onclick="openCheckoutModal('${v.id}', 'location')" ${!v.available ? 'disabled' : ''} 
+                                class="flex-1 bg-zinc-800 hover:bg-zinc-700 disabled:opacity-40 text-white border border-gold-500/40 font-semibold py-2.5 px-3 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-calendar-check text-gold-400"></i>
+                                <span>Louer cette voiture</span>
+                            </button>` : ''}
+                        </div>
+                        <button onclick="openVehicleDetail('${v.id}')" class="w-full py-2 text-xs text-zinc-400 hover:text-gold-400 transition-colors flex items-center justify-center gap-1">
+                            <span>Voir la fiche complète & photos</span>
+                            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </article>
+                `;
+            }).join('');
+        }
+
+        // ==================== VEHICLE DETAILS MODAL ====================
+        window.openVehicleDetail = function(vehicleId) {
+            const v = vehicles.find(item => item.id === vehicleId);
+            if (!v) return;
+
+            const canBuy = v.category === 'vente' || v.category === 'both';
+            const canRent = v.category === 'location' || v.category === 'both';
+            const photos = v.photos && v.photos.length ? v.photos : ['https://placehold.co/800x500/18181B/D4AF37?text=Vehicule'];
+
+            document.getElementById('detail-modal-title').textContent = `${v.brand} ${v.model} (${v.year})`;
+            document.getElementById('detail-modal-body').innerHTML = `
+                <div class="space-y-6">
+                    <!-- Gallery -->
+                    <div>
+                        <div class="h-64 sm:h-80 rounded-xl overflow-hidden bg-obsidian-950 border border-zinc-800 mb-3">
+                            <img id="detail-main-photo" src="${photos[0]}" alt="${v.model}" class="w-full h-full object-cover">
+                        </div>
+                        ${photos.length > 1 ? `
+                        <div class="flex gap-2.5 overflow-x-auto pb-1">
+                            ${photos.map((p, idx) => `
+                                <img src="${p}" onclick="document.getElementById('detail-main-photo').src='${p}'" 
+                                     class="w-20 h-14 object-cover rounded-lg cursor-pointer border-2 border-zinc-700 hover:border-gold-500 transition-all">
+                            `).join('')}
+                        </div>` : ''}
+                    </div>
+
+                    <!-- Specs Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="bg-obsidian-950 p-3.5 rounded-xl border border-zinc-800">
+                            <span class="text-[11px] text-zinc-400 block">Année</span>
+                            <strong class="text-sm text-white">${v.year}</strong>
+                        </div>
+                        <div class="bg-obsidian-950 p-3.5 rounded-xl border border-zinc-800">
+                            <span class="text-[11px] text-zinc-400 block">Carburant</span>
+                            <strong class="text-sm text-white">${v.fuel}</strong>
+                        </div>
+                        <div class="bg-obsidian-950 p-3.5 rounded-xl border border-zinc-800">
+                            <span class="text-[11px] text-zinc-400 block">Boîte de vitesse</span>
+                            <strong class="text-sm text-white">${v.transmission}</strong>
+                        </div>
+                        <div class="bg-obsidian-950 p-3.5 rounded-xl border border-zinc-800">
+                            <span class="text-[11px] text-zinc-400 block">Kilométrage</span>
+                            <strong class="text-sm text-white">${Number(v.mileage).toLocaleString('fr-FR')} km</strong>
+                        </div>
+                        <div class="bg-obsidian-950 p-3.5 rounded-xl border border-zinc-800">
+                            <span class="text-[11px] text-zinc-400 block">Couleur</span>
+                            <strong class="text-sm text-white">${v.color}</strong>
+                        </div>
+                        <div class="bg-obsidian-950 p-3.5 rounded-xl border border-zinc-800">
+                            <span class="text-[11px] text-zinc-400 block">Disponibilité</span>
+                            <strong class="text-sm ${v.available ? 'text-emerald-400' : 'text-red-400'}">${v.available ? 'Disponible' : 'Indisponible'}</strong>
+                        </div>
+                        ${canBuy ? `
+                        <div class="bg-obsidian-950 p-3.5 rounded-xl border border-gold-500/30">
+                            <span class="text-[11px] text-gold-400 block">Prix de vente</span>
+                            <strong class="text-sm text-white">${formatFCFA(v.salePrice)}</strong>
+                        </div>` : ''}
+                        ${canRent ? `
+                        <div class="bg-obsidian-950 p-3.5 rounded-xl border border-sky-500/30">
+                            <span class="text-[11px] text-sky-400 block">Location / jour</span>
+                            <strong class="text-sm text-white">${formatFCFA(v.rentPrice)}</strong>
+                        </div>` : ''}
+                    </div>
+
+                    <!-- Description -->
+                    <div class="bg-obsidian-950 p-4 rounded-xl border border-zinc-800">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-gold-400 mb-2">Description détaillée</h4>
+                        <p class="text-sm text-zinc-300 leading-relaxed">${v.description}</p>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                        ${canBuy ? `
+                        <button onclick="closeModal('vehicle-detail-modal'); openCheckoutModal('${v.id}', 'vente')" ${!v.available ? 'disabled' : ''} 
+                            class="flex-1 gold-gradient disabled:opacity-40 text-obsidian-950 font-bold py-3.5 px-6 rounded-xl text-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <span>Acheter cette voiture (${formatFCFA(v.salePrice)})</span>
+                        </button>` : ''}
+                        ${canRent ? `
+                        <button onclick="closeModal('vehicle-detail-modal'); openCheckoutModal('${v.id}', 'location')" ${!v.available ? 'disabled' : ''} 
+                            class="flex-1 bg-zinc-800 hover:bg-zinc-700 disabled:opacity-40 text-white border border-gold-500/50 font-bold py-3.5 px-6 rounded-xl text-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-calendar-check text-gold-400"></i>
+                            <span>Louer cette voiture (${formatFCFA(v.rentPrice)}/j)</span>
+                        </button>` : ''}
+                    </div>
+                </div>
+            `;
+            document.getElementById('vehicle-detail-modal').classList.remove('hidden');
+        };
+
+        // ==================== 3 & 4. CHECKOUT (PURCHASE OR RENTAL) ====================
+        window.toggleOrganizationFields = function() {
+            const profileType = document.getElementById('client-profile-type').value;
+            const orgNameGroup = document.getElementById('org-name-group');
+            const orgRoleGroup = document.getElementById('org-role-group');
+            const orgInput = document.getElementById('client-organization');
+
+            if (profileType === 'Entreprise / Organisation') {
+                orgNameGroup.classList.remove('hidden');
+                orgRoleGroup.classList.remove('hidden');
+                orgInput.required = true;
+            } else {
+                orgNameGroup.classList.add('hidden');
+                orgRoleGroup.classList.add('hidden');
+                orgInput.required = false;
+                orgInput.value = '';
+                document.getElementById('client-org-role').value = '';
+            }
+        };
+
+        window.openCheckoutModal = function(vehicleId, orderType) {
+            const v = vehicles.find(item => item.id === vehicleId);
+            if (!v) return;
+
+            uploadedProofDataUrl = '';
+            document.getElementById('checkout-form').reset();
+            toggleOrganizationFields();
+            document.getElementById('checkout-vehicle-id').value = v.id;
+            document.getElementById('checkout-order-type').value = orderType;
+
+            document.getElementById('checkout-vehicle-img').src = (v.photos && v.photos[0]) || '';
+            document.getElementById('checkout-vehicle-name').textContent = `${v.brand} ${v.model} (${v.year})`;
+            document.getElementById('checkout-vehicle-specs').textContent = `${v.fuel} • ${v.transmission} • ${v.color}`;
+
+            const badge = document.getElementById('checkout-type-badge');
+            const title = document.getElementById('checkout-modal-title');
+            const rentalSection = document.getElementById('rental-fields-section');
+            const submitLabel = document.getElementById('checkout-submit-label');
+
+            if (orderType === 'vente') {
+                badge.textContent = 'Achat de véhicule';
+                badge.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase bg-gold-500 text-obsidian-950';
+                title.textContent = 'Formulaire de Commande - Achat';
+                rentalSection.classList.add('hidden');
+                document.getElementById('rental-start-date').required = false;
+                document.getElementById('rental-end-date').required = false;
+
+                document.getElementById('checkout-price-label').textContent = 'Prix de vente';
+                document.getElementById('checkout-unit-price').textContent = formatFCFA(v.salePrice);
+                document.getElementById('wave-amount-to-pay').textContent = formatFCFA(v.salePrice);
+                submitLabel.textContent = 'Confirmer ma commande';
+            } else {
+                badge.textContent = 'Réservation Location';
+                badge.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase bg-sky-500 text-white';
+                title.textContent = 'Formulaire de Réservation - Location';
+                rentalSection.classList.remove('hidden');
+                document.getElementById('rental-start-date').required = true;
+                document.getElementById('rental-end-date').required = true;
+
+                // Set default dates (today & tomorrow)
+                const today = new Date();
+                const tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                document.getElementById('rental-start-date').value = today.toISOString().split('T')[0];
+                document.getElementById('rental-end-date').value = tomorrow.toISOString().split('T')[0];
+
+                document.getElementById('checkout-price-label').textContent = 'Tarif journalier';
+                document.getElementById('checkout-unit-price').textContent = `${formatFCFA(v.rentPrice)} / j`;
+                submitLabel.textContent = 'Confirmer ma réservation';
+                calculateRentalTotal();
+            }
+
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        };
+
+        window.calculateRentalTotal = function() {
+            const vId = document.getElementById('checkout-vehicle-id').value;
+            const v = vehicles.find(item => item.id === vId);
+            if (!v) return 0;
+
+            const startStr = document.getElementById('rental-start-date').value;
+            const endStr = document.getElementById('rental-end-date').value;
+            let days = 1;
+
+            if (startStr && endStr) {
+                const start = new Date(startStr);
+                const end = new Date(endStr);
+                const diffTime = end - start;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                days = diffDays > 0 ? diffDays : 1;
+            }
+
+            const total = days * Number(v.rentPrice);
+            document.getElementById('rental-days-display').textContent = `${days} jour${days > 1 ? 's' : ''}`;
+            document.getElementById('rental-daily-display').textContent = formatFCFA(v.rentPrice);
+            document.getElementById('rental-total-display').textContent = formatFCFA(total);
+            document.getElementById('wave-amount-to-pay').textContent = formatFCFA(total);
+            return { days, total };
+        };
+
+        window.copyWaveNumber = function() {
+            const tempInput = document.createElement('input');
+            tempInput.value = '0585878013';
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast('Numéro Wave 05 85 87 80 13 copié !', 'info');
+        };
+
+        window.handleProofUpload = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (file.size > 800000) {
+                showToast('Image volumineuse : elle sera compressée automatiquement.', 'info');
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const maxW = 700;
+                    const scale = Math.min(1, maxW / img.width);
+                    canvas.width = img.width * scale;
+                    canvas.height = img.height * scale;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    uploadedProofDataUrl = canvas.toDataURL('image/jpeg', 0.72);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        };
+
+        // Submit Order / Rental Form
+        window.submitOrderForm = async function(event) {
+            event.preventDefault();
+
+            const vId = document.getElementById('checkout-vehicle-id').value;
+            const orderType = document.getElementById('checkout-order-type').value;
+            const v = vehicles.find(item => item.id === vId);
+            if (!v) return;
+
+            const clientProfileType = document.getElementById('client-profile-type').value;
+            const clientOrganization = document.getElementById('client-organization').value.trim();
+            const clientOrgRole = document.getElementById('client-org-role').value.trim();
+            const clientName = document.getElementById('client-name').value.trim();
+            const clientPhone = document.getElementById('client-phone').value.trim();
+            const clientEmail = document.getElementById('client-email').value.trim();
+            const clientCity = document.getElementById('client-city').value.trim();
+            const clientAddress = document.getElementById('client-address').value.trim();
+            const clientIdNumber = document.getElementById('client-id-number').value.trim();
+            const clientMessage = document.getElementById('client-message').value.trim();
+            const waveTxRef = document.getElementById('wave-tx-ref').value.trim();
+
+            let totalAmount = Number(v.salePrice);
+            let rentalDetails = null;
+
+            if (orderType === 'location') {
+                const calc = calculateRentalTotal();
+                totalAmount = calc.total;
+                rentalDetails = {
+                    startDate: document.getElementById('rental-start-date').value,
+                    endDate: document.getElementById('rental-end-date').value,
+                    pickupTime: document.getElementById('rental-pickup-time').value,
+                    pickupLocation: document.getElementById('rental-pickup-location').value,
+                    days: calc.days,
+                    dailyPrice: Number(v.rentPrice)
+                };
+            }
+
+            const now = new Date();
+            const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+            const orderRef = `NDC-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}-${randomSuffix}`;
+            const receiptNumber = `REC-${now.getFullYear()}-${randomSuffix}`;
+
+            const newOrder = {
+                id: orderRef,
+                orderRef,
+                receiptNumber,
+                createdAt: now.toISOString(),
+                orderType, // 'vente' or 'location'
+                vehicleId: v.id,
+                vehicleName: `${v.brand} ${v.model} (${v.year})`,
+                clientProfileType,
+                clientOrganization,
+                clientOrgRole,
+                clientName,
+                clientPhone,
+                clientEmail,
+                clientCity,
+                clientAddress,
+                clientIdNumber,
+                clientMessage,
+                rentalDetails,
+                totalAmount,
+                paymentMethod: 'Wave (05 85 87 80 13)',
+                waveTxRef: waveTxRef || 'Non renseignée',
+                waveProofUrl: uploadedProofDataUrl || '',
+                paymentStatus: 'En attente', // 'En attente' | 'Confirmé' | 'Refusé'
+                orderStatus: 'En attente de validation' // 'En attente de validation' | 'Confirmée' | 'En cours' | 'Terminée' | 'Refusée'
+            };
+
+            // Save to Cloud Database or Local Memory
+            if (isCloudReady && db) {
+                try {
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'orders', orderRef), newOrder);
+                } catch (e) {
+                    console.error("Error saving order:", e);
+                    orders.unshift(newOrder);
+                }
+            } else {
+                orders.unshift(newOrder);
+            }
+
+            closeModal('checkout-modal');
+            showToast('Votre demande a été enregistrée avec succès !', 'success');
+
+            // 6. Build WhatsApp Message & URL (+2250585878013)
+            const whatsappUrl = buildWhatsAppOrderUrl(newOrder);
+
+            // Populate Confirmation Modal
+            document.getElementById('conf-order-ref').textContent = newOrder.orderRef;
+            document.getElementById('conf-vehicle').textContent = newOrder.vehicleName;
+            document.getElementById('conf-type').textContent = orderType === 'vente' ? 'Achat de véhicule' : `Location (${rentalDetails.days} jour(s))`;
+            document.getElementById('conf-amount').textContent = formatFCFA(newOrder.totalAmount);
+            document.getElementById('conf-whatsapp-btn').href = whatsappUrl;
+            document.getElementById('conf-download-pdf-btn').onclick = () => generatePDFReceipt(newOrder);
+
+            document.getElementById('confirmation-modal').classList.remove('hidden');
+
+            // Automatically trigger WhatsApp redirection in new tab
+            window.open(whatsappUrl, '_blank');
+        };
+
+        // 6. WHATSAPP MESSAGE GENERATOR
+        function buildWhatsAppOrderUrl(order) {
+            const typeLabel = order.orderType === 'vente' ? 'ACHAT DE VÉHICULE' : 'LOCATION DE VÉHICULE';
+            let rentalLines = '';
+            if (order.orderType === 'location' && order.rentalDetails) {
+                rentalLines = `\n*Dates :* Du ${order.rentalDetails.startDate} au ${order.rentalDetails.endDate} (${order.rentalDetails.days} jour(s))\n*Récupération / Livraison :* ${order.rentalDetails.pickupLocation} à ${order.rentalDetails.pickupTime} (Livraison gratuite)`;
+            } else {
+                rentalLines = `\n*Livraison :* Gratuite`;
+            }
+            const orgLine = order.clientOrganization ? `\n*Organisation :* ${order.clientOrganization}${order.clientOrgRole ? ` (${order.clientOrgRole})` : ''}` : '';
+
+            const message = 
+`Bonjour *NOVADRIVE CI*, je viens de valider une demande sur votre site web :
+
+*Référence :* ${order.orderRef}
+*Type :* ${typeLabel}
+*Profil :* ${order.clientProfileType || 'Particulier'}${orgLine}
+*Client :* ${order.clientName}
+*Pièce ID / Permis :* ${order.clientIdNumber || 'Non renseigné'}
+*Téléphone :* ${order.clientPhone}
+*E-mail :* ${order.clientEmail}
+*Ville/Commune :* ${order.clientCity}
+*Adresse complète :* ${order.clientAddress || 'Non renseignée'}
+*Véhicule :* ${order.vehicleName}${rentalLines}
+*Montant Total :* ${formatFCFA(order.totalAmount)}
+*Paiement :* Wave (05 85 87 80 13)
+*Réf. Transaction Wave :* ${order.waveTxRef}
+*Statut Paiement :* ${order.paymentStatus}
+
+Merci de confirmer la disponibilité et la vérification du paiement.`;
+
+            return `https://wa.me/2250585878013?text=${encodeURIComponent(message)}`;
+        }
+
+        // ==================== 7. PDF RECEIPT GENERATION (jsPDF) ====================
+        window.generatePDFReceipt = function(order) {
+            const { jsPDF } = window.jspdf;
+            const docPdf = new jsPDF();
+
+            const isPaid = order.paymentStatus === 'Confirmé';
+            const docTitle = isPaid ? 'REÇU OFFICIEL DE PAIEMENT & COMMANDE' : 'REÇU DE COMMANDE (PAIEMENT EN ATTENTE)';
+            const formattedDate = new Date(order.createdAt).toLocaleString('fr-FR');
+
+            // Header Luxury Dark Banner
+            docPdf.setFillColor(15, 15, 18);
+            docPdf.rect(0, 0, 210, 42, 'F');
+
+            // Brand Accent Line (Blue & Red)
+            docPdf.setFillColor(4, 30, 66);
+            docPdf.rect(0, 42, 105, 2, 'F');
+            docPdf.setFillColor(225, 29, 29);
+            docPdf.rect(105, 42, 105, 2, 'F');
+
+            // Logo Emblem Badge
+            docPdf.setFillColor(255, 255, 255);
+            docPdf.roundedRect(15, 10, 16, 16, 3, 3, 'F');
+            docPdf.setTextColor(4, 30, 66);
+            docPdf.setFont('helvetica', 'bold');
+            docPdf.setFontSize(10);
+            docPdf.text('ND', 17.5, 19.5);
+            docPdf.setTextColor(225, 29, 29);
+            docPdf.text('CI', 24.5, 19.5);
+
+            // Company Name & Slogan
+            docPdf.setTextColor(255, 255, 255);
+            docPdf.setFontSize(16);
+            docPdf.text(adminConfig.companyName || 'NOVADRIVE CI', 36, 17);
+            docPdf.setFont('helvetica', 'italic');
+            docPdf.setFontSize(9);
+            docPdf.setTextColor(212, 175, 55);
+            docPdf.text('Votre prochaine voiture, notre priorité. - Abidjan, Côte d\'Ivoire', 36, 23);
+            docPdf.setFont('helvetica', 'normal');
+            docPdf.setTextColor(200, 200, 200);
+            docPdf.text('Tél / WhatsApp / Wave : +225 05 85 87 80 13', 36, 29);
+
+            // Document Title Banner
+            docPdf.setTextColor(15, 15, 18);
+            docPdf.setFont('helvetica', 'bold');
+            docPdf.setFontSize(13);
+            docPdf.text(docTitle, 15, 56);
+
+            // Status Badge Box
+            if (isPaid) {
+                docPdf.setFillColor(220, 252, 231);
+                docPdf.setTextColor(22, 101, 52);
+            } else {
+                docPdf.setFillColor(254, 243, 199);
+                docPdf.setTextColor(146, 64, 14);
+            }
+            docPdf.roundedRect(15, 60, 88, 8, 2, 2, 'F');
+            docPdf.setFontSize(9);
+            docPdf.text(`STATUT PAIEMENT : ${order.paymentStatus.toUpperCase()}`, 19, 65.5);
+
+            // Receipt Metadata Box
+            docPdf.setDrawColor(220, 220, 220);
+            docPdf.setFillColor(248, 248, 250);
+            docPdf.roundedRect(15, 74, 180, 26, 2, 2, 'FD');
+
+            docPdf.setTextColor(80, 80, 80);
+            docPdf.setFont('helvetica', 'normal');
+            docPdf.setFontSize(9);
+            docPdf.text(`Numéro de reçu :`, 20, 82);
+            docPdf.text(`Référence commande :`, 20, 89);
+            docPdf.text(`Date d'émission :`, 20, 96);
+
+            docPdf.setTextColor(15, 15, 18);
+            docPdf.setFont('helvetica', 'bold');
+            docPdf.text(order.receiptNumber, 62, 82);
+            docPdf.text(order.orderRef, 62, 89);
+            docPdf.text(formattedDate, 62, 96);
+
+            // Client Section
+            docPdf.setFontSize(11);
+            docPdf.setTextColor(181, 144, 36);
+            docPdf.text('INFORMATIONS CLIENT & ORGANISATION', 15, 110);
+            docPdf.line(15, 112, 195, 112);
+
+            docPdf.setFontSize(9);
+            docPdf.setTextColor(50, 50, 50);
+            docPdf.setFont('helvetica', 'normal');
+            docPdf.text(`Nom & Prénoms : ${order.clientName}`, 15, 119);
+            docPdf.text(`Profil : ${order.clientProfileType || 'Particulier'}${order.clientOrganization ? ' - ' + order.clientOrganization : ''}`, 15, 125);
+            docPdf.text(`Adresse : ${order.clientCity}${order.clientAddress ? ', ' + order.clientAddress : ''}`, 15, 131);
+            docPdf.text(`Téléphone : ${order.clientPhone}`, 120, 119);
+            docPdf.text(`E-mail : ${order.clientEmail}`, 120, 125);
+            docPdf.text(`Pièce ID / Permis : ${order.clientIdNumber || 'N/A'}`, 120, 131);
+
+            // Order & Vehicle Details Table
+            docPdf.setFontSize(11);
+            docPdf.setTextColor(181, 144, 36);
+            docPdf.setFont('helvetica', 'bold');
+            docPdf.text('DÉTAILS DE LA COMMANDE', 15, 143);
+
+            docPdf.setFillColor(15, 15, 18);
+            docPdf.rect(15, 147, 180, 9, 'F');
+            docPdf.setTextColor(255, 255, 255);
+            docPdf.setFontSize(9);
+            docPdf.text('Désignation', 19, 153);
+            docPdf.text('Type', 110, 153);
+            docPdf.text('Montant (FCFA)', 152, 153);
+
+            docPdf.setDrawColor(220, 220, 220);
+            docPdf.rect(15, 156, 180, 28, 'S');
+            docPdf.setTextColor(15, 15, 18);
+            docPdf.setFont('helvetica', 'bold');
+            docPdf.text(order.vehicleName, 19, 164);
+            docPdf.text(order.orderType === 'vente' ? 'Achat' : 'Location', 110, 164);
+            docPdf.text(formatFCFA(order.totalAmount), 152, 164);
+
+            docPdf.setFont('helvetica', 'normal');
+            docPdf.setFontSize(8.5);
+            docPdf.setTextColor(90, 90, 90);
+            if (order.orderType === 'location' && order.rentalDetails) {
+                docPdf.text(`Période : Du ${order.rentalDetails.startDate} au ${order.rentalDetails.endDate} (${order.rentalDetails.days} jour(s))`, 19, 171);
+                docPdf.text(`Récupération / Livraison : ${order.rentalDetails.pickupLocation} à ${order.rentalDetails.pickupTime} (Livraison gratuite)`, 19, 177);
+            } else {
+                docPdf.text(`Acquisition véhicule certifié - Livraison gratuite & formalités en Côte d'Ivoire`, 19, 171);
+            }
+
+            // Payment Section
+            docPdf.setFillColor(240, 249, 255);
+            docPdf.setDrawColor(186, 230, 253);
+            docPdf.roundedRect(15, 192, 180, 32, 2, 2, 'FD');
+
+            docPdf.setFont('helvetica', 'bold');
+            docPdf.setFontSize(10);
+            docPdf.setTextColor(3, 105, 161);
+            docPdf.text('INFORMATIONS DE PAIEMENT WAVE', 20, 200);
+
+            docPdf.setFont('helvetica', 'normal');
+            docPdf.setFontSize(9);
+            docPdf.setTextColor(30, 41, 59);
+            docPdf.text(`Mode de paiement : Wave Mobile Money`, 20, 207);
+            docPdf.text(`Numéro Wave Marchand : 05 85 87 80 13 (${adminConfig.waveBeneficiary})`, 20, 213);
+            docPdf.text(`Référence transaction client : ${order.waveTxRef}`, 20, 219);
+
+            // Legal Disclaimer Distinguishing Order Receipt vs Payment Receipt
+            docPdf.setFontSize(8);
+            docPdf.setTextColor(120, 120, 120);
+            if (!isPaid) {
+                docPdf.text('NOTE IMPORTANTE : Ce document constitue un reçu d\'enregistrement de commande. Il ne vaut pas preuve de paiement', 15, 236);
+                docPdf.text('définitive tant que le transfert Wave n\'a pas été vérifié et confirmé par l\'administration de NOVADRIVE CI.', 15, 241);
+            } else {
+                docPdf.setTextColor(22, 101, 52);
+                docPdf.text('PAIEMENT VÉRIFIÉ ET CONFIRMÉ : Ce reçu certifie l\'encaissement du montant indiqué par NOVADRIVE CI.', 15, 236);
+            }
+
+            // Footer
+            docPdf.setDrawColor(212, 175, 55);
+            docPdf.line(15, 272, 195, 272);
+            docPdf.setTextColor(100, 100, 100);
+            docPdf.setFontSize(8);
+            docPdf.text('NOVADRIVE CI • Votre prochaine voiture, notre priorité. • Abidjan • Wave : +225 05 85 87 80 13', 15, 278);
+
+            docPdf.save(`${order.receiptNumber}_${order.orderRef}.pdf`);
+            showToast('Reçu PDF téléchargé avec succès !', 'success');
+        };
+
+        // ==================== CLIENT ORDER TRACKING ====================
+        window.openTrackOrderModal = function() {
+            document.getElementById('track-results-container').innerHTML = '';
+            document.getElementById('track-query-input').value = '';
+            document.getElementById('track-order-modal').classList.remove('hidden');
+        };
+
+        window.searchClientOrders = function() {
+            const q = document.getElementById('track-query-input').value.trim().toLowerCase();
+            const container = document.getElementById('track-results-container');
+            if (!q) {
+                showToast('Veuillez saisir une référence ou un numéro de téléphone.', 'info');
+                return;
+            }
+
+            const matches = orders.filter(o => 
+                o.orderRef.toLowerCase().includes(q) || 
+                o.clientPhone.replace(/\s+/g, '').includes(q.replace(/\s+/g, ''))
+            );
+
+            if (matches.length === 0) {
+                container.innerHTML = `<p class="text-xs text-zinc-400 text-center py-4">Aucune commande trouvée pour cette recherche.</p>`;
+                return;
+            }
+
+            container.innerHTML = matches.map(o => `
+                <div class="p-3.5 rounded-xl bg-obsidian-950 border border-zinc-800 flex items-center justify-between gap-3">
+                    <div>
+                        <span class="text-xs font-mono font-bold text-gold-400">${o.orderRef}</span>
+                        <h5 class="text-sm font-bold text-white">${o.vehicleName}</h5>
+                        <p class="text-[11px] text-zinc-400">Paiement : <strong class="${o.paymentStatus === 'Confirmé' ? 'text-emerald-400' : 'text-amber-400'}">${o.paymentStatus}</strong> • Statut : ${o.orderStatus}</p>
+                    </div>
+                    <button onclick='generatePDFReceipt(${JSON.stringify(o).replace(/'/g, "&#39;")})' class="px-3 py-2 rounded-lg bg-gold-500 text-obsidian-950 font-bold text-xs whitespace-nowrap">
+                        <i class="fa-solid fa-download mr-1"></i>Reçu PDF
+                    </button>
+                </div>
+            `).join('');
+        };
+
+        // ==================== 8. SECURE ADMIN SPACE ====================
+        window.handleAdminNavClick = function() {
+            if (isAdminAuthenticated) {
+                switchView('admin');
+            } else {
+                document.getElementById('admin-login-error').classList.add('hidden');
+                document.getElementById('admin-password').value = '';
+                document.getElementById('admin-login-modal').classList.remove('hidden');
+            }
+        };
+
+        window.handleAdminLogin = async function(event) {
+            event.preventDefault();
+            const userIn = document.getElementById('admin-username').value.trim();
+            const passIn = document.getElementById('admin-password').value;
+            const errorEl = document.getElementById('admin-login-error');
+
+            const inputHash = await sha256(passIn);
+
+            if (userIn === adminConfig.username && inputHash === adminConfig.passwordHash) {
+                isAdminAuthenticated = true;
+                closeModal('admin-login-modal');
+                document.getElementById('nav-admin-label').textContent = 'Tableau de Bord';
+                
+                if (adminConfig.isDefaultPassword) {
+                    document.getElementById('first-login-warning').classList.remove('hidden');
+                } else {
+                    document.getElementById('first-login-warning').classList.add('hidden');
+                }
+
+                switchView('admin');
+                showToast('Connexion administrateur réussie.', 'success');
+            } else {
+                errorEl.textContent = 'Identifiant ou code administrateur incorrect.';
+                errorEl.classList.remove('hidden');
+            }
+        };
+
+        window.logoutAdmin = function() {
+            isAdminAuthenticated = false;
+            document.getElementById('nav-admin-label').textContent = 'Espace Admin';
+            switchView('client');
+            showToast('Vous êtes déconnecté de l\'espace administrateur.', 'info');
+        };
+
+        window.switchView = function(view) {
+            const clientView = document.getElementById('client-view');
+            const adminView = document.getElementById('admin-view');
+
+            if (view === 'admin' && isAdminAuthenticated) {
+                clientView.classList.add('hidden');
+                adminView.classList.remove('hidden');
+                updateAdminStats();
+                renderAdminOrders();
+                renderAdminVehicles();
+                window.scrollTo(0, 0);
+            } else {
+                adminView.classList.add('hidden');
+                clientView.classList.remove('hidden');
+            }
+        };
+
+        window.switchAdminTab = function(tab) {
+            ['orders', 'vehicles', 'settings'].forEach(t => {
+                const btn = document.getElementById(`admin-tab-${t}`);
+                const panel = document.getElementById(`admin-panel-${t}`);
+                if (t === tab) {
+                    btn.className = 'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-gold-500 text-obsidian-950';
+                    panel.classList.remove('hidden');
+                } else {
+                    btn.className = 'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-obsidian-900 text-zinc-300 hover:text-white border border-zinc-800';
+                    panel.classList.add('hidden');
+                }
+            });
+        };
+
+        // Change Admin Password
+        window.openChangePasswordModal = function() {
+            document.getElementById('new-admin-pass').value = '';
+            document.getElementById('confirm-admin-pass').value = '';
+            document.getElementById('change-password-modal').classList.remove('hidden');
+        };
+
+        window.handleChangeAdminPassword = async function(event) {
+            event.preventDefault();
+            const p1 = document.getElementById('new-admin-pass').value;
+            const p2 = document.getElementById('confirm-admin-pass').value;
+
+            if (p1 !== p2) {
+                showToast('Les deux mots de passe ne correspondent pas.', 'error');
+                return;
+            }
+
+            const newHash = await sha256(p1);
+            adminConfig.passwordHash = newHash;
+            adminConfig.isDefaultPassword = false;
+
+            if (isCloudReady && db) {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'admin_config'), adminConfig);
+            }
+
+            document.getElementById('first-login-warning').classList.add('hidden');
+            closeModal('change-password-modal');
+            showToast('Mot de passe administrateur mis à jour avec succès !', 'success');
+        };
+
+        // Save Company Settings
+        function applyCompanyConfigToUI() {
+            document.getElementById('setting-company-name').value = adminConfig.companyName || 'NOVADRIVE CI';
+            document.getElementById('setting-wave-beneficiary').value = adminConfig.waveBeneficiary || 'NOVADRIVE CI';
+            document.getElementById('setting-facebook-url').value = adminConfig.facebookUrl || 'https://www.facebook.com';
+            document.getElementById('wave-beneficiary-display').textContent = adminConfig.waveBeneficiary || 'NOVADRIVE CI';
+            const fbLink = document.getElementById('footer-facebook-link');
+            if (fbLink && adminConfig.facebookUrl) {
+                fbLink.href = adminConfig.facebookUrl;
+            }
+        }
+
+        function detectFacebookReferral() {
+            const ref = (document.referrer || '').toLowerCase();
+            const params = new URLSearchParams(window.location.search);
+            const source = (params.get('utm_source') || params.get('source') || '').toLowerCase();
+            if (ref.includes('facebook.com') || ref.includes('fb.com') || ref.includes('l.facebook.com') || source === 'facebook' || source === 'fb') {
+                setTimeout(() => {
+                    showToast('Bienvenue depuis Facebook ! Choisissez un véhicule ou commandez directement sur WhatsApp (+225 05 85 87 80 13).', 'info');
+                }, 600);
+            }
+        }
+
+        window.saveCompanySettings = async function(event) {
+            event.preventDefault();
+            adminConfig.companyName = document.getElementById('setting-company-name').value.trim();
+            adminConfig.waveBeneficiary = document.getElementById('setting-wave-beneficiary').value.trim();
+            const fbVal = document.getElementById('setting-facebook-url').value.trim();
+            adminConfig.facebookUrl = fbVal || 'https://www.facebook.com';
+            applyCompanyConfigToUI();
+
+            if (isCloudReady && db) {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'admin_config'), adminConfig);
+            }
+            showToast('Paramètres enregistrés.', 'success');
+        };
+
+        // Update Dashboard KPI Statistics
+        function updateAdminStats() {
+            const totalCars = vehicles.length;
+            const availCars = vehicles.filter(v => v.available).length;
+            const totalOrders = orders.length;
+            const rentalsCount = orders.filter(o => o.orderType === 'location').length;
+            const pendingPay = orders.filter(o => o.paymentStatus === 'En attente').length;
+            const confirmedOrders = orders.filter(o => o.paymentStatus === 'Confirmé');
+            const confirmedPay = confirmedOrders.length;
+            const revenue = confirmedOrders.reduce((sum, o) => sum + Number(o.totalAmount || 0), 0);
+
+            document.getElementById('stat-total-cars').textContent = totalCars;
+            document.getElementById('stat-avail-cars').textContent = availCars;
+            document.getElementById('stat-total-orders').textContent = totalOrders;
+            document.getElementById('stat-rentals').textContent = rentalsCount;
+            document.getElementById('stat-pending-pay').textContent = pendingPay;
+            document.getElementById('stat-confirmed-pay').textContent = confirmedPay;
+            document.getElementById('stat-revenue').textContent = formatFCFA(revenue);
+        }
+
+        // Render Admin Orders Table
+        window.renderAdminOrders = function() {
+            const tbody = document.getElementById('admin-orders-tbody');
+            const filter = document.getElementById('admin-order-filter').value;
+
+            let filteredOrders = orders;
+            if (filter === 'vente') filteredOrders = orders.filter(o => o.orderType === 'vente');
+            if (filter === 'location') filteredOrders = orders.filter(o => o.orderType === 'location');
+            if (filter === 'pending_payment') filteredOrders = orders.filter(o => o.paymentStatus === 'En attente');
+
+            if (filteredOrders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="py-10 text-center text-zinc-500">Aucune commande ou réservation enregistrée dans cette catégorie.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filteredOrders.map(o => {
+                const dateStr = new Date(o.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' });
+                const payBadge = o.paymentStatus === 'Confirmé' 
+                    ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/40'
+                    : (o.paymentStatus === 'Refusé' ? 'bg-red-500/15 text-red-400 border-red-500/40' : 'bg-amber-500/15 text-amber-400 border-amber-500/40');
+
+                return `
+                <tr class="hover:bg-zinc-900/50 transition-colors">
+                    <td class="py-3.5 px-4 align-top">
+                        <span class="font-mono font-bold text-gold-400 block">${o.orderRef}</span>
+                        <span class="text-[11px] text-zinc-500">${dateStr}</span>
+                    </td>
+                    <td class="py-3.5 px-4 align-top">
+                        <strong class="text-white block">${o.clientName}</strong>
+                        ${o.clientOrganization ? `<span class="text-[11px] font-semibold text-gold-400 block">${o.clientOrganization}${o.clientOrgRole ? ' • ' + o.clientOrgRole : ''}</span>` : ''}
+                        <span class="text-xs text-zinc-400 block">${o.clientPhone} • ${o.clientEmail}</span>
+                        <span class="text-[11px] text-zinc-400 block">${o.clientCity}${o.clientAddress ? ' — ' + o.clientAddress : ''}</span>
+                        ${o.clientIdNumber ? `<span class="text-[10px] text-zinc-500 font-mono block">ID: ${o.clientIdNumber}</span>` : ''}
+                    </td>
+                    <td class="py-3.5 px-4 align-top">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase ${o.orderType === 'vente' ? 'bg-gold-500/20 text-gold-300' : 'bg-sky-500/20 text-sky-300'}">
+                            ${o.orderType === 'vente' ? 'Achat' : 'Location'}
+                        </span>
+                        <strong class="text-white block mt-1">${o.vehicleName}</strong>
+                        ${o.rentalDetails ? `<span class="text-[11px] text-zinc-400 block">Du ${o.rentalDetails.startDate} au ${o.rentalDetails.endDate} (${o.rentalDetails.days}j)</span>` : ''}
+                    </td>
+                    <td class="py-3.5 px-4 align-top">
+                        <strong class="text-white block">${formatFCFA(o.totalAmount)}</strong>
+                        <span class="text-[11px] text-sky-400 font-mono block">Réf Wave: ${o.waveTxRef}</span>
+                        ${o.waveProofUrl ? `<button onclick="viewWaveProof('${o.id}')" class="mt-1 text-[11px] text-gold-400 underline flex items-center gap-1"><i class="fa-solid fa-image"></i>Voir capture</button>` : ''}
+                    </td>
+                    <td class="py-3.5 px-4 align-top">
+                        <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold border ${payBadge} inline-block mb-2">
+                            ${o.paymentStatus}
+                        </span>
+                        <div class="flex gap-1.5">
+                            <button onclick="updateOrderPaymentStatus('${o.id}', 'Confirmé')" class="px-2 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-semibold" title="Confirmer paiement Wave">
+                                <i class="fa-solid fa-check"></i> Valider
+                            </button>
+                            <button onclick="updateOrderPaymentStatus('${o.id}', 'Refusé')" class="px-2 py-1 rounded bg-red-600/80 hover:bg-red-500 text-white text-[11px] font-semibold" title="Refuser paiement">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td class="py-3.5 px-4 align-top">
+                        <select onchange="updateOrderWorkflowStatus('${o.id}', this.value)" class="bg-obsidian-950 border border-zinc-700 rounded-lg px-2.5 py-1.5 text-xs text-white">
+                            <option value="En attente de validation" ${o.orderStatus === 'En attente de validation' ? 'selected' : ''}>En attente</option>
+                            <option value="Confirmée" ${o.orderStatus === 'Confirmée' ? 'selected' : ''}>Confirmée</option>
+                            <option value="En cours" ${o.orderStatus === 'En cours' ? 'selected' : ''}>En cours</option>
+                            <option value="Terminée" ${o.orderStatus === 'Terminée' ? 'selected' : ''}>Terminée</option>
+                            <option value="Refusée" ${o.orderStatus === 'Refusée' ? 'selected' : ''}>Refusée</option>
+                        </select>
+                    </td>
+                    <td class="py-3.5 px-4 align-top text-right">
+                        <button onclick='generatePDFReceipt(${JSON.stringify(o).replace(/'/g, "&#39;")})' class="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-gold-500 hover:text-obsidian-950 text-zinc-200 text-xs font-semibold transition-colors" title="Télécharger Reçu PDF">
+                            <i class="fa-solid fa-file-pdf mr-1"></i>PDF
+                        </button>
+                    </td>
+                </tr>
+                `;
+            }).join('');
+        };
+
+        window.viewWaveProof = function(orderId) {
+            const o = orders.find(item => item.id === orderId);
+            if (!o || !o.waveProofUrl) return;
+            document.getElementById('wave-proof-content').innerHTML = `
+                <img src="${o.waveProofUrl}" alt="Preuve Wave" class="max-h-[65vh] mx-auto rounded-xl border border-zinc-700">
+                <p class="text-xs text-zinc-400 mt-3">Réf Transaction déclarée : <strong class="text-white font-mono">${o.waveTxRef}</strong></p>
+            `;
+            document.getElementById('wave-proof-modal').classList.remove('hidden');
+        };
+
+        window.updateOrderPaymentStatus = async function(orderId, status) {
+            const idx = orders.findIndex(o => o.id === orderId);
+            if (idx === -1) return;
+
+            orders[idx].paymentStatus = status;
+            if (status === 'Confirmé' && orders[idx].orderStatus === 'En attente de validation') {
+                orders[idx].orderStatus = 'Confirmée';
+            }
+
+            if (isCloudReady && db) {
+                await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'orders', orderId), {
+                    paymentStatus: orders[idx].paymentStatus,
+                    orderStatus: orders[idx].orderStatus
+                });
+            }
+
+            renderAdminOrders();
+            updateAdminStats();
+            showToast(`Paiement marqué comme "${status}".`, status === 'Confirmé' ? 'success' : 'info');
+        };
+
+        window.updateOrderWorkflowStatus = async function(orderId, newStatus) {
+            const idx = orders.findIndex(o => o.id === orderId);
+            if (idx === -1) return;
+            orders[idx].orderStatus = newStatus;
+
+            if (isCloudReady && db) {
+                await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'orders', orderId), {
+                    orderStatus: newStatus
+                });
+            }
+            showToast(`Statut de commande mis à jour : ${newStatus}`, 'info');
+        };
+
+        // ==================== ADMIN VEHICLE CRUD ====================
+        window.renderAdminVehicles = function() {
+            const grid = document.getElementById('admin-vehicles-grid');
+            grid.innerHTML = vehicles.map(v => `
+                <div class="bg-obsidian-900 rounded-2xl border border-zinc-800 overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="relative h-44 bg-zinc-950">
+                            <img src="${(v.photos && v.photos[0]) || ''}" alt="${v.model}" class="w-full h-full object-cover">
+                            <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[11px] font-bold ${v.available ? 'bg-emerald-500 text-obsidian-950' : 'bg-red-500 text-white'}">
+                                ${v.available ? 'Disponible' : 'Indisponible'}
+                            </span>
+                        </div>
+                        <div class="p-4">
+                            <span class="text-xs text-gold-400 font-bold">${v.brand} • ${v.year}</span>
+                            <h4 class="text-base font-bold text-white">${v.model}</h4>
+                            <div class="mt-3 space-y-1 text-xs text-zinc-400">
+                                <p>Vente : <strong class="text-white">${formatFCFA(v.salePrice)}</strong></p>
+                                <p>Location : <strong class="text-gold-400">${formatFCFA(v.rentPrice)} / jour</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 pt-0 flex gap-2">
+                        <button onclick="openVehicleFormModal('${v.id}')" class="flex-1 py-2 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-semibold">
+                            <i class="fa-solid fa-pen mr-1 text-gold-400"></i>Modifier
+                        </button>
+                        <button onclick="toggleVehicleAvailability('${v.id}')" class="py-2 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs" title="Basculer disponibilité">
+                            <i class="fa-solid fa-power-off"></i>
+                        </button>
+                        <button onclick="deleteVehicle('${v.id}')" class="py-2 px-3 rounded-xl bg-red-500/15 hover:bg-red-500/30 text-red-400 text-xs" title="Supprimer">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        window.openVehicleFormModal = function(vehicleId = null) {
+            const form = document.getElementById('admin-vehicle-form');
+            form.reset();
+            document.getElementById('edit-vehicle-id').value = '';
+
+            if (vehicleId) {
+                const v = vehicles.find(item => item.id === vehicleId);
+                if (!v) return;
+                document.getElementById('vehicle-form-title').textContent = `Modifier : ${v.brand} ${v.model}`;
+                document.getElementById('edit-vehicle-id').value = v.id;
+                document.getElementById('v-brand').value = v.brand;
+                document.getElementById('v-model').value = v.model;
+                document.getElementById('v-year').value = v.year;
+                document.getElementById('v-category').value = v.category;
+                document.getElementById('v-fuel').value = v.fuel;
+                document.getElementById('v-transmission').value = v.transmission;
+                document.getElementById('v-mileage').value = v.mileage;
+                document.getElementById('v-color').value = v.color;
+                document.getElementById('v-sale-price').value = v.salePrice;
+                document.getElementById('v-rent-price').value = v.rentPrice;
+                document.getElementById('v-available').value = String(v.available);
+                document.getElementById('v-photos').value = (v.photos || []).join(',\n');
+                document.getElementById('v-description').value = v.description;
+            } else {
+                document.getElementById('vehicle-form-title').textContent = 'Ajouter un nouveau véhicule';
+            }
+
+            document.getElementById('admin-vehicle-modal').classList.remove('hidden');
+        };
+
+        window.saveVehicleForm = async function(event) {
+            event.preventDefault();
+            const existingId = document.getElementById('edit-vehicle-id').value;
+            const id = existingId || `veh-${Date.now()}`;
+
+            const rawPhotos = document.getElementById('v-photos').value;
+            const photosList = rawPhotos.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+
+            const vehicleData = {
+                id,
+                brand: document.getElementById('v-brand').value.trim(),
+                model: document.getElementById('v-model').value.trim(),
+                year: Number(document.getElementById('v-year').value),
+                category: document.getElementById('v-category').value,
+                fuel: document.getElementById('v-fuel').value,
+                transmission: document.getElementById('v-transmission').value,
+                mileage: Number(document.getElementById('v-mileage').value),
+                color: document.getElementById('v-color').value.trim(),
+                salePrice: Number(document.getElementById('v-sale-price').value || 0),
+                rentPrice: Number(document.getElementById('v-rent-price').value || 0),
+                available: document.getElementById('v-available').value === 'true',
+                photos: photosList.length ? photosList : ['https://placehold.co/800x500/18181B/D4AF37?text=Vehicule'],
+                description: document.getElementById('v-description').value.trim()
+            };
+
+            if (isCloudReady && db) {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'vehicles', id), vehicleData);
+            } else {
+                const idx = vehicles.findIndex(v => v.id === id);
+                if (idx >= 0) vehicles[idx] = vehicleData;
+                else vehicles.unshift(vehicleData);
+                populateBrandFilter();
+                renderCatalog();
+                renderAdminVehicles();
+                updateAdminStats();
+            }
+
+            closeModal('admin-vehicle-modal');
+            showToast(existingId ? 'Véhicule mis à jour avec succès !' : 'Nouveau véhicule ajouté au catalogue !', 'success');
+        };
+
+        window.toggleVehicleAvailability = async function(id) {
+            const v = vehicles.find(item => item.id === id);
+            if (!v) return;
+            v.available = !v.available;
+
+            if (isCloudReady && db) {
+                await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'vehicles', id), { available: v.available });
+            } else {
+                renderCatalog();
+                renderAdminVehicles();
+                updateAdminStats();
+            }
+            showToast(`Disponibilité mise à jour : ${v.available ? 'Disponible' : 'Indisponible'}`, 'info');
+        };
+
+        window.deleteVehicle = async function(id) {
+            if (isCloudReady && db) {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'vehicles', id));
+            } else {
+                vehicles = vehicles.filter(v => v.id !== id);
+                populateBrandFilter();
+                renderCatalog();
+                renderAdminVehicles();
+                updateAdminStats();
+            }
+            showToast('Véhicule supprimé du catalogue.', 'info');
+        };
+
+        // ==================== UI HELPERS & LEGAL CONTENT ====================
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        };
+
+        window.toggleMobileMenu = function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        };
+
+        window.openLegalModal = function(type) {
+            const titleEl = document.getElementById('legal-modal-title');
+            const contentEl = document.getElementById('legal-modal-content');
+
+            if (type === 'cgv') {
+                titleEl.textContent = 'Conditions Générales de Vente (CGV)';
+                contentEl.innerHTML = `
+                    <p><strong>1. Objet :</strong> Les présentes Conditions Générales de Vente régissent les transactions d'achat de véhicules neufs ou d'occasion proposées par <strong>NOVADRIVE CI</strong> en République de Côte d'Ivoire.</p>
+                    <p><strong>2. Prix et Paiement :</strong> Les prix sont exprimés en Francs CFA (FCFA). Tout acompte ou règlement effectué via <strong>Wave (05 85 87 80 13)</strong> fait l'objet d'une vérification comptable avant remise définitive du véhicule et transfert de propriété.</p>
+                    <p><strong>3. Garantie et Conformité :</strong> Tous nos véhicules sont livrés avec leur carte grise à jour, certificat de visite technique valide et attestation d'assurance.</p>
+                `;
+            } else if (type === 'cgl') {
+                titleEl.textContent = 'Conditions Générales de Location (CGL)';
+                contentEl.innerHTML = `
+                    <p><strong>1. Conditions du Locataire :</strong> Le conducteur doit être titulaire d'un permis de conduire valide depuis au moins 2 ans et présenter une pièce d'identité (CNI ou Passeport).</p>
+                    <p><strong>2. Tarification et Durée :</strong> La location est facturée par tranche de 24 heures en FCFA. Toute prolongation doit être signalée au moins 12 heures avant l'échéance.</p>
+                    <p><strong>3. Réservation Wave :</strong> La réservation devient ferme après validation du paiement Wave par notre service administratif.</p>
+                `;
+            } else {
+                titleEl.textContent = 'Politique de Confidentialité';
+                contentEl.innerHTML = `
+                    <p><strong>Protection des données personnelles :</strong> Conformément à la législation ivoirienne relative à la protection des données à caractère personnel, les informations recueillies lors de vos commandes et réservations (nom, téléphone, e-mail, justificatifs de paiement) sont strictement utilisées pour le traitement de votre dossier et l'édition de vos reçus officiels.</p>
+                `;
+            }
+
+            document.getElementById('legal-modal').classList.remove('hidden');
+        };
+
+        // Start Application on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            initDatabase();
+            applyCompanyConfigToUI();
+            detectFacebookReferral();
+        });
+    </script>
+</body>
+</html>
